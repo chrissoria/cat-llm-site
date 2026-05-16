@@ -1248,7 +1248,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
     <div class="packages-header reveal">
       <div class="section-label">Ecosystem</div>
       <h2 class="section-title">Domain-specific packages</h2>
-      <p class="section-desc">Each package includes optimized prompts, specialized parameters, and built-in data sources for its domain — while sharing a consistent API.</p>
+      <p class="section-desc">Six domain packages built on the shared <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">cat-stack</code> engine. Each adds optimized prompts, specialized parameters, and built-in data sources for its domain — while exposing the same <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">classify()</code> / <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">extract()</code> API.</p>
     </div>
     <div class="packages-grid">
       <div class="pkg-card reveal reveal-delay-1">
@@ -1302,12 +1302,12 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
         </div>
       </div>
       <div class="pkg-card reveal reveal-delay-3">
-        <span class="pkg-tag">Base</span>
-        <div class="pkg-name">cat-stack</div>
-        <div class="pkg-domain">General-Purpose Base</div>
-        <p class="pkg-desc">The domain-agnostic classification engine underlying all packages. Build your own domain wrapper on top of cat-stack.</p>
-        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-stack')">
-          <code>pip install cat-stack</code>
+        <span class="pkg-tag">Package</span>
+        <div class="pkg-name">cat-web</div>
+        <div class="pkg-domain">Web Content</div>
+        <p class="pkg-desc">Classify scraped web pages, articles, and HTML content with domain-tuned prompts for long-form online text.</p>
+        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-web')">
+          <code>pip install cat-web</code>
           <button class="copy-btn" aria-label="Copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
         </div>
       </div>
@@ -1363,18 +1363,21 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
 cats = cat.<span class="c-func">extract</span>(
     input_data=df[<span class="c-string">'responses'</span>],
     survey_question=<span class="c-string">"Why did you move?"</span>,
-    n=<span class="c-value">50</span>,
+    max_categories=<span class="c-value">12</span>,
     api_key=api_key
 )
 
-<span class="c-comment"># Step 2: Classify at scale</span>
+<span class="c-comment"># Step 2: Classify with a multi-model ensemble</span>
 results = cat.<span class="c-func">classify</span>(
     input_data=df[<span class="c-string">'responses'</span>],
     categories=cats[<span class="c-string">'top_categories'</span>],
     survey_question=<span class="c-string">"Why did you move?"</span>,
     multi_label=<span class="c-value">True</span>,
-    ensemble=<span class="c-value">True</span>,
-    api_key=api_key
+    models=[
+        (<span class="c-string">"gpt-4o"</span>, <span class="c-string">"openai"</span>, openai_key),
+        (<span class="c-string">"gemini-2.5-flash"</span>, <span class="c-string">"google"</span>, gemini_key),
+    ],
+    consensus_threshold=<span class="c-string">"unanimous"</span>,
 )
 
 <span class="c-comment"># Step 3: Export</span>
