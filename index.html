@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CatLLM — Reproducible LLM Text Classification</title>
+  <meta name="description" content="An open-source Python & R ecosystem for LLM-powered text classification. 98% accuracy vs. human consensus. Provider-agnostic. Fully local deployment." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Variables ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #080808;
+      --bg-2:       #0f0f0f;
+      --bg-3:       #161616;
+      --border:     rgba(255,255,255,0.07);
+      --border-hi:  rgba(255,140,60,0.28);
+      --teal:       #00dcc3;
+      --teal-dim:   #00a89a;
+      --teal-glow:  rgba(0,220,195,0.12);
+      --teal-glow2: rgba(0,220,195,0.04);
+      --orange:     #ff8c3c;
+      --orange-glow: rgba(255,140,60,0.12);
+      --text:       #e8edf5;
+      --text-2:     #8a95a8;
+      --text-3:     #4e5a6d;
+      --white:      #ffffff;
+      --amber:      #f5a623;
+      --radius:     10px;
+      --radius-lg:  18px;
+      --font-sans:  'DM Sans', sans-serif;
+      --font-mono:  'DM Mono', monospace;
+      --font-disp:  'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── Background texture ─────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,220,195,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 35% at 85% 75%, rgba(255,140,60,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .dot-grid {
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Layout ─────────────────────────────────────────── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    section { position: relative; z-index: 1; }
+
+    /* ── Nav ─────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(8,12,20,0.75);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--font-disp);
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-logo-dot {
+      width: 8px; height: 8px;
+      background: var(--orange);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--orange);
+      animation: pulse-dot 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.8); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-2);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--teal) !important;
+      color: var(--bg) !important;
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-weight: 500 !important;
+      font-size: 0.85rem !important;
+      transition: opacity 0.2s !important;
+    }
+
+    .nav-cta:hover { opacity: 0.85 !important; }
+
+    /* ── Hero ─────────────────────────────────────────────── */
+    .hero {
+      padding: 160px 0 100px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--teal);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      padding: 5px 12px;
+      border: 1px solid var(--border-hi);
+      border-radius: 100px;
+      background: var(--teal-glow2);
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 5px; height: 5px;
+      background: var(--teal);
+      border-radius: 50%;
+    }
+
+    .hero-title {
+      font-family: var(--font-disp);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .hero-title .teal { color: var(--teal); }
+
+    .hero-subtitle {
+      font-family: var(--font-disp);
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      font-weight: 500;
+      color: var(--text-2);
+      line-height: 1.4;
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-desc {
+      color: var(--text-2);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+
+    .hero-desc strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--teal);
+      color: var(--bg);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 0 20px rgba(0,220,195,0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 30px rgba(0,220,195,0.35);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 12px 22px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .install-cmd {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      max-width: fit-content;
+    }
+
+    .install-cmd:hover { border-color: var(--border-hi); }
+
+    .install-cmd code {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--teal);
+    }
+
+    .copy-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-3);
+      padding: 2px;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+    }
+
+    .copy-btn:hover { color: var(--text); }
+    .copy-btn.copied { color: var(--teal); }
+
+    /* Hero right panel */
+    .hero-panel {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal), transparent);
+      opacity: 0.5;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+
+    .pd-red   { background: #ff5f57; }
+    .pd-amber { background: #febc2e; }
+    .pd-green { background: #28c840; }
+
+    .panel-title {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-3);
+      margin-left: 8px;
+    }
+
+    .panel-code {
+      padding: 20px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      line-height: 1.85;
+      color: #c8d0de;
+      overflow-x: auto;
+    }
+
+    .c-keyword  { color: #7eb8f7; }
+    .c-func     { color: #79d9c7; }
+    .c-string   { color: #f5c27a; }
+    .c-comment  { color: var(--text-3); font-style: italic; }
+    .c-param    { color: #c8d0de; }
+    .c-value    { color: #f5c27a; }
+
+    /* ── Stats bar ─────────────────────────────────────────── */
+    .stats-bar {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    .stat-item {
+      padding: 12px 24px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: var(--font-disp);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-num span { color: var(--orange); }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-3);
+      font-weight: 400;
+    }
+
+    /* ── Section headers ─────────────────────────────────── */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--teal);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--font-disp);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+
+    .section-desc {
+      color: var(--text-2);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      max-width: 540px;
+    }
+
+    /* ── Features ─────────────────────────────────────────── */
+    .features { padding: 100px 0; }
+
+    .features-header { margin-bottom: 60px; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .feature-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--teal-glow2), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--border-hi);
+      transform: translateY(-2px);
+    }
+
+    .feature-card:hover::after { opacity: 1; }
+
+    .feature-icon {
+      width: 42px; height: 42px;
+      background: var(--teal-glow);
+      border: 1px solid var(--border-hi);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      font-size: 1.15rem;
+    }
+
+    .feature-title {
+      font-family: var(--font-disp);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .feature-desc {
+      font-size: 0.875rem;
+      color: var(--text-2);
+      line-height: 1.65;
+    }
+
+    /* ── Pipeline ─────────────────────────────────────────── */
+    .pipeline { padding: 100px 0; }
+
+    .pipeline-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .pipeline-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .pipeline-step {
+      display: flex;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: default;
+      transition: all 0.2s;
+    }
+
+    .pipeline-step:first-child { border-top: 1px solid var(--border); }
+
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--orange);
+      background: var(--orange-glow);
+      border: 1px solid rgba(255,140,60,0.22);
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .step-content {}
+
+    .step-title {
+      font-family: var(--font-disp);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .step-desc {
+      font-size: 0.875rem;
+      color: var(--text-2);
+      line-height: 1.65;
+    }
+
+    .pipeline-visual {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pipeline-visual::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal), transparent);
+      opacity: 0.4;
+    }
+
+    .pv-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .pv-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+
+    .pv-title {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-3);
+      margin-left: 6px;
+    }
+
+    .pv-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pv-stage {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: border-color 0.2s;
+    }
+
+    .pv-stage:hover { border-color: var(--border-hi); }
+
+    .pv-stage-badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--teal);
+      background: var(--teal-glow);
+      padding: 2px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      letter-spacing: 0.05em;
+    }
+
+    .pv-stage-desc {
+      font-size: 0.8rem;
+      color: var(--text-2);
+    }
+
+    .pv-arrow {
+      text-align: center;
+      color: var(--text-3);
+      font-size: 0.75rem;
+    }
+
+    /* ── Domain Packages ──────────────────────────────────── */
+    .packages { padding: 100px 0; }
+
+    .packages-header { margin-bottom: 60px; }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .pkg-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative;
+    }
+
+    .pkg-card:hover {
+      border-color: var(--border-hi);
+      transform: translateY(-2px);
+    }
+
+    .pkg-emoji {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .pkg-name {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--teal);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .pkg-domain {
+      font-family: var(--font-disp);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .pkg-desc {
+      font-size: 0.8rem;
+      color: var(--text-2);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+
+    .pkg-install {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 7px 12px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .pkg-install:hover { border-color: var(--border-hi); }
+
+    .pkg-install code {
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      color: var(--text-2);
+      flex: 1;
+    }
+
+    .pkg-install .copy-btn {
+      color: var(--text-3);
+    }
+
+    /* ── Code section ─────────────────────────────────────── */
+    .code-section { padding: 100px 0; }
+
+    .code-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .code-block {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .code-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal), transparent);
+      opacity: 0.4;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .code-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .code-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+
+    .code-lang {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-3);
+    }
+
+    .code-body {
+      padding: 22px 22px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      line-height: 1.9;
+      color: #c8d0de;
+      overflow-x: auto;
+    }
+
+    .code-text { white-space: pre; }
+
+    /* ── Research ─────────────────────────────────────────── */
+    .research { padding: 100px 0; }
+
+    .research-inner {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 60px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .research-inner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, var(--teal), transparent);
+      opacity: 0.5;
+    }
+
+    .research-inner::after {
+      content: '"';
+      position: absolute;
+      top: -10px; right: 40px;
+      font-family: var(--font-disp);
+      font-size: 14rem;
+      color: rgba(0,220,195,0.04);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .research-quote {
+      font-family: var(--font-disp);
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.6;
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+    }
+
+    .research-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .research-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-2);
+    }
+
+    .research-chip::before {
+      content: '';
+      width: 4px; height: 4px;
+      background: var(--teal);
+      border-radius: 50%;
+    }
+
+    .research-cta {
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ───────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      font-family: var(--font-disp);
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.03em;
+    }
+
+    .footer-meta {
+      font-size: 0.8rem;
+      color: var(--text-3);
+      line-height: 1.6;
+    }
+
+    .footer-meta a {
+      color: var(--text-3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-meta a:hover { color: var(--teal); }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 0.82rem;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--teal); }
+
+    /* ── Scroll animations ─────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-panel { display: none; }
+      .features-grid { grid-template-columns: 1fr; }
+      .pipeline-inner { grid-template-columns: 1fr; }
+      .pipeline-visual { display: none; }
+      .packages-grid { grid-template-columns: repeat(2, 1fr); }
+      .code-inner { grid-template-columns: 1fr; }
+      .research-inner { grid-template-columns: 1fr; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-right: 1px solid var(--border); }
+      .stat-item:nth-child(3), .stat-item:nth-child(4) { border-top: 1px solid var(--border); }
+    }
+
+    @media (max-width: 560px) {
+      .packages-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hero { padding: 120px 0 60px; }
+      .stats-inner { grid-template-columns: 1fr 1fr; }
+      .research-inner { padding: 36px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="dot-grid"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="nav-logo-dot"></span>
+      CatLLM
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pipeline">Pipeline</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="https://pypi.org/project/cat-llm/" target="_blank" class="nav-cta">Get Started</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-eyebrow">Open Source · Python &amp; R</div>
+        <h1 class="hero-title">Cat<span class="teal">LLM</span></h1>
+        <p class="hero-subtitle">A Reproducible LLM Pipeline<br>for Classifying Open-Ended Text</p>
+        <p class="hero-desc">
+          <strong>98% accuracy</strong> vs. human consensus. Provider-agnostic — works with GPT, Gemini, Qwen, and local models via Ollama. <strong>No vendor lock-in. No data leaves your machine</strong> with fully local deployment.
+        </p>
+        <div class="hero-actions">
+          <a href="https://pypi.org/project/cat-llm/" target="_blank" class="btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Get Started
+          </a>
+          <a href="https://github.com/chrissoria/cat-llm" target="_blank" class="btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            View on GitHub
+          </a>
+        </div>
+        <div class="install-cmd" onclick="copyInstall(this)" title="Click to copy">
+          <code>pip install cat-llm</code>
+          <button class="copy-btn" aria-label="Copy">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right code panel -->
+      <div class="hero-panel">
+        <div class="panel-header">
+          <div class="panel-dot pd-red"></div>
+          <div class="panel-dot pd-amber"></div>
+          <div class="panel-dot pd-green"></div>
+          <span class="panel-title">classify_survey.py</span>
+        </div>
+        <div class="panel-code">
+<span class="c-keyword">import</span> cat_survey <span class="c-keyword">as</span> cat<br>
+<br>
+<span class="c-comment"># Classify open-ended responses</span><br>
+results = cat.<span class="c-func">classify</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_data=df[<span class="c-string">'responses'</span>],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;categories=[<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-string">"Job change"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-string">"Family reasons"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-string">"Cost of living"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;survey_question=<span class="c-string">"Why did you move?"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;api_key=api_key<br>
+)<br>
+<br>
+<span class="c-comment"># Export for analysis</span><br>
+results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</span>)
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-bar" style="position:relative;z-index:1;">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-num">98<span>%</span></div>
+        <div class="stat-label">accuracy vs. human consensus</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">21</div>
+        <div class="stat-label">LLMs evaluated in validation</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">6</div>
+        <div class="stat-label">domain-specific packages</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">0<span>$</span></div>
+        <div class="stat-label">cost with local open-weight models</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Features -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-header reveal">
+      <div class="section-label">Why CatLLM</div>
+      <h2 class="section-title">Built for researchers,<br>not just engineers</h2>
+      <p class="section-desc">Empirically grounded defaults so you spend less time tuning and more time analyzing.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Multi-model ensembles</div>
+        <p class="feature-desc">Combine predictions from multiple LLMs with unanimous voting. Inexpensive open-weight ensembles outperform the best individual cloud model — at a fraction of the cost.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon">🔌</div>
+        <div class="feature-title">Provider-agnostic</div>
+        <p class="feature-desc">Works with GPT, Gemini, Qwen, Claude, and open-weight models via Ollama. REST-based — no SDK dependencies. Switch providers without changing your code.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">Fully local deployment</div>
+        <p class="feature-desc">Run entirely on your own hardware via open-weight models. Survey data never leaves your machine — critical for IRB compliance and sensitive data.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-4">
+        <div class="feature-icon">📄</div>
+        <div class="feature-title">Unified multimodal API</div>
+        <p class="feature-desc">Classify text, images, and PDFs through a single consistent interface. Automatic input detection handles mixed datasets without extra configuration.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pipeline -->
+<section class="pipeline" id="pipeline">
+  <div class="container">
+    <div class="pipeline-inner">
+      <div>
+        <div class="section-label reveal">How it works</div>
+        <h2 class="section-title reveal">A three-stage<br>classification pipeline</h2>
+        <p class="section-desc reveal" style="margin-bottom:40px;">From raw text to coded data — no predefined categories required.</p>
+        <div class="pipeline-steps">
+          <div class="pipeline-step reveal reveal-delay-1">
+            <div class="step-num">01</div>
+            <div class="step-content">
+              <div class="step-title">Explore</div>
+              <p class="step-desc">Automatically discover categories from your data. Sample responses, let the model surface recurring themes, then merge semantically similar labels into a clean taxonomy.</p>
+            </div>
+          </div>
+          <div class="pipeline-step reveal reveal-delay-2">
+            <div class="step-num">02</div>
+            <div class="step-content">
+              <div class="step-title">Extract</div>
+              <p class="step-desc">Extract structured classifications at scale. Batch processing handles entire dataframe columns with configurable model selection and provider routing.</p>
+            </div>
+          </div>
+          <div class="pipeline-step reveal reveal-delay-3">
+            <div class="step-num">03</div>
+            <div class="step-content">
+              <div class="step-title">Classify</div>
+              <p class="step-desc">Assign categories with multi-label support and ensemble voting. Verbose definitions with inclusion/exclusion criteria dramatically reduce over-classification.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pipeline-visual reveal reveal-delay-2">
+        <div class="pv-header">
+          <div class="pv-dot" style="background:#ff5f57"></div>
+          <div class="pv-dot" style="background:#febc2e"></div>
+          <div class="pv-dot" style="background:#28c840"></div>
+          <span class="pv-title">pipeline.py</span>
+        </div>
+        <div class="pv-flow">
+          <div class="pv-stage">
+            <span class="pv-stage-badge">EXPLORE</span>
+            <span class="pv-stage-desc">Discover categories from 50 samples</span>
+          </div>
+          <div class="pv-arrow">↓</div>
+          <div class="pv-stage">
+            <span class="pv-stage-badge">EXTRACT</span>
+            <span class="pv-stage-desc">Batch classify full dataset</span>
+          </div>
+          <div class="pv-arrow">↓</div>
+          <div class="pv-stage">
+            <span class="pv-stage-badge">CLASSIFY</span>
+            <span class="pv-stage-desc">Multi-label + ensemble vote</span>
+          </div>
+          <div class="pv-arrow">↓</div>
+          <div class="pv-stage" style="border-color:var(--border-hi);">
+            <span class="pv-stage-badge" style="background:rgba(0,220,195,0.2);">OUTPUT</span>
+            <span class="pv-stage-desc">CSV ready for statistical analysis</span>
+          </div>
+        </div>
+        <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--border);">
+          <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-3);margin-bottom:10px;">Optional extras</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-2);background:var(--bg-3);padding:3px 8px;border-radius:4px;border:1px solid var(--border);">pip install cat-llm[pdf]</span>
+            <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-2);background:var(--bg-3);padding:3px 8px;border-radius:4px;border:1px solid var(--border);">cat-llm[embeddings]</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Packages -->
+<section class="packages" id="packages">
+  <div class="container">
+    <div class="packages-header reveal">
+      <div class="section-label">Ecosystem</div>
+      <h2 class="section-title">Domain-specific packages</h2>
+      <p class="section-desc">Each package includes optimized prompts, specialized parameters, and built-in data sources for its domain — while sharing a consistent API.</p>
+    </div>
+    <div class="packages-grid">
+      <div class="pkg-card reveal reveal-delay-1">
+        <span class="pkg-emoji">📋</span>
+        <div class="pkg-name">cat-survey</div>
+        <div class="pkg-domain">Survey Responses</div>
+        <p class="pkg-desc">Classify open-ended survey responses at scale. Handles ambiguity with verbose category definitions and ensemble voting.</p>
+        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-survey')">
+          <code>pip install cat-survey</code>
+          <button class="copy-btn" aria-label="Copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        </div>
+      </div>
+      <div class="pkg-card reveal reveal-delay-2">
+        <span class="pkg-emoji">🏛️</span>
+        <div class="pkg-name">cat-pol</div>
+        <div class="pkg-domain">Political Text</div>
+        <p class="pkg-desc">17 built-in data sources: municipal ordinances, federal laws, executive orders, presidential speeches, and more. Updated weekly.</p>
+        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-pol')">
+          <code>pip install cat-pol</code>
+          <button class="copy-btn" aria-label="Copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        </div>
+      </div>
+      <div class="pkg-card reveal reveal-delay-3">
+        <span class="pkg-emoji">💬</span>
+        <div class="pkg-name">cat-vader</div>
+        <div class="pkg-domain">Social Media</div>
+        <p class="pkg-desc">Classify social media posts, comments, and short-form text with domain-tuned prompts for informal language.</p>
+        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-vader')">
+          <code>pip install cat-vader</code>
+          <button class="copy-btn" aria-label="Copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        </div>
+      </div>
+      <div class="pkg-card reveal reveal-delay-1">
+        <span class="pkg-emoji">🎓</span>
+        <div class="pkg-name">cat-ademic</div>
+        <div class="pkg-domain">Academic Papers</div>
+        <p class="pkg-desc">Classify and summarize academic abstracts, full texts, and research documents across disciplines.</p>
+        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-ademic')">
+          <code>pip install cat-ademic</code>
+          <button class="copy-btn" aria-label="Copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        </div>
+      </div>
+      <div class="pkg-card reveal reveal-delay-2">
+        <span class="pkg-emoji">🧠</span>
+        <div class="pkg-name">cat-cog</div>
+        <div class="pkg-domain">Cognitive Assessment</div>
+        <p class="pkg-desc">Specialized tools for cognitive assessment scoring, including CERAD drawing evaluation for dementia research.</p>
+        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-cog')">
+          <code>pip install cat-cog</code>
+          <button class="copy-btn" aria-label="Copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        </div>
+      </div>
+      <div class="pkg-card reveal reveal-delay-3">
+        <span class="pkg-emoji">🔧</span>
+        <div class="pkg-name">cat-stack</div>
+        <div class="pkg-domain">General-Purpose Base</div>
+        <p class="pkg-desc">The domain-agnostic classification engine underlying all packages. Build your own domain wrapper on top of cat-stack.</p>
+        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-stack')">
+          <code>pip install cat-stack</code>
+          <button class="copy-btn" aria-label="Copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Code example -->
+<section class="code-section" id="code">
+  <div class="container">
+    <div class="code-inner">
+      <div>
+        <div class="section-label reveal">Example</div>
+        <h2 class="section-title reveal">From raw responses<br>to coded data</h2>
+        <p class="section-desc reveal" style="margin-bottom:28px;">A complete classification pipeline in under 10 lines of Python. Works the same way in R via the reticulate wrapper.</p>
+        <div class="reveal reveal-delay-1" style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:16px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;">
+            <span style="color:var(--teal);font-size:1.1rem;margin-top:1px;">✓</span>
+            <div>
+              <div style="font-size:0.85rem;font-weight:500;color:var(--white);margin-bottom:3px;">Multi-label support</div>
+              <div style="font-size:0.8rem;color:var(--text-2);">One response can belong to multiple categories simultaneously.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:16px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;">
+            <span style="color:var(--teal);font-size:1.1rem;margin-top:1px;">✓</span>
+            <div>
+              <div style="font-size:0.85rem;font-weight:500;color:var(--white);margin-bottom:3px;">Automatic "Other" escape valve</div>
+              <div style="font-size:0.8rem;color:var(--text-2);">Prevents forced miscategorization of ambiguous responses.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:16px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;">
+            <span style="color:var(--teal);font-size:1.1rem;margin-top:1px;">✓</span>
+            <div>
+              <div style="font-size:0.85rem;font-weight:500;color:var(--white);margin-bottom:3px;">CSV-ready output</div>
+              <div style="font-size:0.8rem;color:var(--text-2);">Results export directly for use in Stata, R, or Python.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="code-block reveal reveal-delay-2">
+        <div class="code-header">
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+          <span class="code-lang">python</span>
+        </div>
+        <div class="code-body">
+<div class="code-text"><span class="c-keyword">import</span> cat_survey <span class="c-keyword">as</span> cat
+
+<span class="c-comment"># Step 1: Discover categories</span>
+cats = cat.<span class="c-func">extract</span>(
+    input_data=df[<span class="c-string">'responses'</span>],
+    survey_question=<span class="c-string">"Why did you move?"</span>,
+    n=<span class="c-value">50</span>,
+    api_key=api_key
+)
+
+<span class="c-comment"># Step 2: Classify at scale</span>
+results = cat.<span class="c-func">classify</span>(
+    input_data=df[<span class="c-string">'responses'</span>],
+    categories=cats[<span class="c-string">'top_categories'</span>],
+    survey_question=<span class="c-string">"Why did you move?"</span>,
+    multi_label=<span class="c-value">True</span>,
+    ensemble=<span class="c-value">True</span>,
+    api_key=api_key
+)
+
+<span class="c-comment"># Step 3: Export</span>
+results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_responses.csv"</span>)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Research -->
+<section class="research" id="research">
+  <div class="container">
+    <div class="research-inner reveal">
+      <div>
+        <div class="section-label" style="margin-bottom:16px;">Research-backed</div>
+        <p class="research-quote">
+          "Built on peer-reviewed research. Validated across 21 LLMs, 6 providers, and 4 survey tasks benchmarked against expert human coders — with empirically grounded defaults encoded directly into the package."
+        </p>
+        <div class="research-meta">
+          <span class="research-chip">21 LLMs evaluated</span>
+          <span class="research-chip">6 providers</span>
+          <span class="research-chip">4 survey tasks</span>
+          <span class="research-chip">Expert human benchmark</span>
+        </div>
+      </div>
+      <div class="research-cta">
+        <a href="https://osf.io/preprints/socarxiv/gjvcf_v1" target="_blank" class="btn-secondary" style="white-space:nowrap;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+          Read the preprint
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">CatLLM</div>
+        <div class="footer-meta" style="margin-top:6px;">
+          Created by <a href="https://christophersoria.com" target="_blank">Chris Soria</a>, UC Berkeley · GPL-3.0 License
+        </div>
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://pypi.org/project/cat-llm/" target="_blank">PyPI</a></li>
+        <li><a href="https://github.com/chrissoria/cat-llm" target="_blank">GitHub</a></li>
+        <li><a href="https://huggingface.co/spaces/CatLLM/survey-classifier" target="_blank">Web App</a></li>
+        <li><a href="https://osf.io/preprints/socarxiv/gjvcf_v1" target="_blank">Preprint</a></li>
+        <li><a href="https://christophersoria.com" target="_blank">Author</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Copy install command
+  function copyInstall(el) {
+    navigator.clipboard.writeText('pip install cat-llm').then(() => {
+      const btn = el.querySelector('.copy-btn');
+      btn.classList.add('copied');
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      }, 2000);
+    });
+  }
+
+  function copyPkg(el, cmd) {
+    navigator.clipboard.writeText(cmd).then(() => {
+      const btn = el.querySelector('.copy-btn');
+      btn.classList.add('copied');
+      btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      }, 2000);
+    });
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Hero elements visible immediately
+  document.querySelectorAll('.hero .reveal, .hero-panel').forEach(el => {
+    el.classList.add('visible');
+  });
+</script>
+</body>
+</html>
