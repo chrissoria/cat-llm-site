@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CatLLM — Reproducible LLM Text Classification</title>
   <meta name="description" content="An open-source Python & R ecosystem for LLM-powered text classification. 98% accuracy vs. human consensus. Provider-agnostic. Fully local deployment." />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
@@ -112,17 +113,11 @@
       gap: 8px;
     }
 
-    .nav-logo-dot {
-      width: 8px; height: 8px;
-      background: var(--orange);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--orange);
-      animation: pulse-dot 2.5s ease-in-out infinite;
-    }
-
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(0.8); }
+    .nav-logo-mark {
+      height: 28px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 0 6px rgba(255,140,60,0.15));
     }
 
     .nav-links {
@@ -1030,7 +1025,7 @@
 <nav>
   <div class="nav-inner">
     <a href="#" class="nav-logo">
-      <span class="nav-logo-dot"></span>
+      <img src="assets/catllm-mark.png" alt="CatLLM" class="nav-logo-mark" />
       CatLLM
     </a>
     <ul class="nav-links">
