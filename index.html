@@ -227,6 +227,34 @@
       font-weight: 500;
     }
 
+    .hero-citation {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-3);
+      margin-bottom: 28px;
+      padding: 10px 14px;
+      border-left: 2px solid var(--teal-dim);
+      background: var(--teal-glow2);
+      max-width: fit-content;
+    }
+
+    .hero-citation a {
+      color: var(--text-2);
+      text-decoration: underline;
+      text-decoration-color: var(--teal-dim);
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+      transition: color 0.2s;
+    }
+
+    .hero-citation a:hover { color: var(--teal); }
+
+    .citation-sep { color: var(--text-3); opacity: 0.45; }
+
     .hero-actions {
       display: flex;
       gap: 12px;
@@ -474,7 +502,7 @@
     .feature-card:hover::after { opacity: 1; }
 
     .feature-icon {
-      width: 42px; height: 42px;
+      width: 40px; height: 40px;
       background: var(--teal-glow);
       border: 1px solid var(--border-hi);
       border-radius: 10px;
@@ -482,7 +510,7 @@
       align-items: center;
       justify-content: center;
       margin-bottom: 18px;
-      font-size: 1.15rem;
+      color: var(--teal);
     }
 
     .feature-title {
@@ -662,10 +690,17 @@
       transform: translateY(-2px);
     }
 
-    .pkg-emoji {
-      font-size: 1.4rem;
-      margin-bottom: 12px;
-      display: block;
+    .pkg-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 14px;
+      padding: 3px 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
     }
 
     .pkg-name {
@@ -851,6 +886,45 @@
       flex-shrink: 0;
     }
 
+    /* ── Citation block ──────────────────────────────────── */
+    .cite-block {
+      margin-top: 36px;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .cite-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.2);
+    }
+
+    .cite-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .cite-body {
+      padding: 16px 18px;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.65;
+      color: #c8d0de;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .cite-body .c-key { color: #7eb8f7; }
+    .cite-body .c-str { color: #f5c27a; }
+
     /* ── Footer ───────────────────────────────────────────── */
     footer {
       border-top: 1px solid var(--border);
@@ -963,7 +1037,7 @@
       <li><a href="#features">Features</a></li>
       <li><a href="#pipeline">Pipeline</a></li>
       <li><a href="#packages">Packages</a></li>
-      <li><a href="#research">Research</a></li>
+      <li><a href="#research">Citation</a></li>
       <li><a href="https://pypi.org/project/cat-llm/" target="_blank" class="nav-cta">Get Started</a></li>
     </ul>
   </div>
@@ -976,10 +1050,17 @@
       <div class="hero-left">
         <div class="hero-eyebrow">Open Source · Python &amp; R</div>
         <h1 class="hero-title">Cat<span class="teal">LLM</span></h1>
-        <p class="hero-subtitle">A Reproducible LLM Pipeline<br>for Classifying Open-Ended Text</p>
+        <p class="hero-subtitle">A reproducible LLM pipeline<br>for classifying open-ended text</p>
         <p class="hero-desc">
-          <strong>98% accuracy</strong> vs. human consensus. Provider-agnostic — works with GPT, Gemini, Qwen, and local models via Ollama. <strong>No vendor lock-in. No data leaves your machine</strong> with fully local deployment.
+          A Python and R toolkit for systematic text classification using large language models. Validated against expert human coders across 21 LLMs and 4 survey tasks (<strong>98% accuracy</strong> vs. human consensus). Provider-agnostic — runs on GPT, Gemini, Qwen, Claude, or fully local open-weight models via Ollama.
         </p>
+        <div class="hero-citation">
+          <span>Soria, C.</span>
+          <span class="citation-sep">·</span>
+          <span>UC Berkeley</span>
+          <span class="citation-sep">·</span>
+          <a href="https://osf.io/preprints/socarxiv/gjvcf_v1" target="_blank">SocArXiv preprint, 2026</a>
+        </div>
         <div class="hero-actions">
           <a href="https://pypi.org/project/cat-llm/" target="_blank" class="btn-primary">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -1057,30 +1138,38 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
 <section class="features" id="features">
   <div class="container">
     <div class="features-header reveal">
-      <div class="section-label">Why CatLLM</div>
-      <h2 class="section-title">Built for researchers,<br>not just engineers</h2>
-      <p class="section-desc">Empirically grounded defaults so you spend less time tuning and more time analyzing.</p>
+      <div class="section-label">Design Principles</div>
+      <h2 class="section-title">Designed for empirical research</h2>
+      <p class="section-desc">Defaults grounded in systematic evaluation — so methodological choices are documented, defensible, and reproducible.</p>
     </div>
     <div class="features-grid">
       <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon">⚡</div>
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
         <div class="feature-title">Multi-model ensembles</div>
-        <p class="feature-desc">Combine predictions from multiple LLMs with unanimous voting. Inexpensive open-weight ensembles outperform the best individual cloud model — at a fraction of the cost.</p>
+        <p class="feature-desc">Aggregate predictions across models with unanimous voting. Inexpensive open-weight ensembles can match or exceed individual frontier models at a fraction of the cost.</p>
       </div>
       <div class="feature-card reveal reveal-delay-2">
-        <div class="feature-icon">🔌</div>
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+        </div>
         <div class="feature-title">Provider-agnostic</div>
-        <p class="feature-desc">Works with GPT, Gemini, Qwen, Claude, and open-weight models via Ollama. REST-based — no SDK dependencies. Switch providers without changing your code.</p>
+        <p class="feature-desc">Compatible with GPT, Gemini, Qwen, Claude, and open-weight models served via Ollama. REST-based with no SDK dependencies; switch providers without changing analysis code.</p>
       </div>
       <div class="feature-card reveal reveal-delay-3">
-        <div class="feature-icon">🔒</div>
-        <div class="feature-title">Fully local deployment</div>
-        <p class="feature-desc">Run entirely on your own hardware via open-weight models. Survey data never leaves your machine — critical for IRB compliance and sensitive data.</p>
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="feature-title">Local-only deployment</div>
+        <p class="feature-desc">Runs entirely on local hardware via open-weight models. Sensitive data — survey responses, clinical text, PII — never leaves the machine, supporting IRB and HIPAA constraints.</p>
       </div>
       <div class="feature-card reveal reveal-delay-4">
-        <div class="feature-icon">📄</div>
-        <div class="feature-title">Unified multimodal API</div>
-        <p class="feature-desc">Classify text, images, and PDFs through a single consistent interface. Automatic input detection handles mixed datasets without extra configuration.</p>
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        </div>
+        <div class="feature-title">Unified multimodal interface</div>
+        <p class="feature-desc">Text, images, and PDFs share one consistent API. Automatic input detection handles mixed datasets without per-modality configuration.</p>
       </div>
     </div>
   </div>
@@ -1168,7 +1257,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
     </div>
     <div class="packages-grid">
       <div class="pkg-card reveal reveal-delay-1">
-        <span class="pkg-emoji">📋</span>
+        <span class="pkg-tag">Package</span>
         <div class="pkg-name">cat-survey</div>
         <div class="pkg-domain">Survey Responses</div>
         <p class="pkg-desc">Classify open-ended survey responses at scale. Handles ambiguity with verbose category definitions and ensemble voting.</p>
@@ -1178,7 +1267,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
         </div>
       </div>
       <div class="pkg-card reveal reveal-delay-2">
-        <span class="pkg-emoji">🏛️</span>
+        <span class="pkg-tag">Package</span>
         <div class="pkg-name">cat-pol</div>
         <div class="pkg-domain">Political Text</div>
         <p class="pkg-desc">17 built-in data sources: municipal ordinances, federal laws, executive orders, presidential speeches, and more. Updated weekly.</p>
@@ -1188,7 +1277,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
         </div>
       </div>
       <div class="pkg-card reveal reveal-delay-3">
-        <span class="pkg-emoji">💬</span>
+        <span class="pkg-tag">Package</span>
         <div class="pkg-name">cat-vader</div>
         <div class="pkg-domain">Social Media</div>
         <p class="pkg-desc">Classify social media posts, comments, and short-form text with domain-tuned prompts for informal language.</p>
@@ -1198,7 +1287,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
         </div>
       </div>
       <div class="pkg-card reveal reveal-delay-1">
-        <span class="pkg-emoji">🎓</span>
+        <span class="pkg-tag">Package</span>
         <div class="pkg-name">cat-ademic</div>
         <div class="pkg-domain">Academic Papers</div>
         <p class="pkg-desc">Classify and summarize academic abstracts, full texts, and research documents across disciplines.</p>
@@ -1208,7 +1297,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
         </div>
       </div>
       <div class="pkg-card reveal reveal-delay-2">
-        <span class="pkg-emoji">🧠</span>
+        <span class="pkg-tag">Package</span>
         <div class="pkg-name">cat-cog</div>
         <div class="pkg-domain">Cognitive Assessment</div>
         <p class="pkg-desc">Specialized tools for cognitive assessment scoring, including CERAD drawing evaluation for dementia research.</p>
@@ -1218,7 +1307,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
         </div>
       </div>
       <div class="pkg-card reveal reveal-delay-3">
-        <span class="pkg-emoji">🔧</span>
+        <span class="pkg-tag">Base</span>
         <div class="pkg-name">cat-stack</div>
         <div class="pkg-domain">General-Purpose Base</div>
         <p class="pkg-desc">The domain-agnostic classification engine underlying all packages. Build your own domain wrapper on top of cat-stack.</p>
@@ -1301,20 +1390,40 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_respons
   </div>
 </section>
 
-<!-- Research -->
+<!-- Research / Citation -->
 <section class="research" id="research">
   <div class="container">
     <div class="research-inner reveal">
       <div>
-        <div class="section-label" style="margin-bottom:16px;">Research-backed</div>
+        <div class="section-label" style="margin-bottom:16px;">Citation</div>
         <p class="research-quote">
-          "Built on peer-reviewed research. Validated across 21 LLMs, 6 providers, and 4 survey tasks benchmarked against expert human coders — with empirically grounded defaults encoded directly into the package."
+          Defaults are grounded in a systematic evaluation of 21 LLMs across 6 providers and 4 open-ended survey coding tasks, benchmarked against expert human coders.
         </p>
+        <div style="font-family:var(--font-mono);font-size:0.82rem;color:var(--text-2);line-height:1.7;margin-bottom:18px;">
+          Soria, C. (2026). <em style="color:var(--text);font-style:italic;">Scaling Open-Ended Survey Coding: An LLM Pipeline Where Definitions Do the Heavy Lifting</em>. SocArXiv. <a href="https://osf.io/preprints/socarxiv/gjvcf_v1" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">osf.io/preprints/socarxiv/gjvcf</a>
+        </div>
         <div class="research-meta">
-          <span class="research-chip">21 LLMs evaluated</span>
+          <span class="research-chip">21 LLMs</span>
           <span class="research-chip">6 providers</span>
           <span class="research-chip">4 survey tasks</span>
           <span class="research-chip">Expert human benchmark</span>
+        </div>
+
+        <div class="cite-block" id="bibtex-block">
+          <div class="cite-header">
+            <span class="cite-label">BibTeX</span>
+            <button class="copy-btn" onclick="copyBibtex(this)" aria-label="Copy BibTeX">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+<div class="cite-body" id="bibtex-text"><span class="c-key">@article</span>{soria2026catllm,
+  <span class="c-key">title</span>   = <span class="c-str">{Scaling Open-Ended Survey Coding: An {LLM} Pipeline
+             Where Definitions Do the Heavy Lifting}</span>,
+  <span class="c-key">author</span>  = <span class="c-str">{Soria, Chris}</span>,
+  <span class="c-key">year</span>    = <span class="c-str">{2026}</span>,
+  <span class="c-key">journal</span> = <span class="c-str">{SocArXiv}</span>,
+  <span class="c-key">url</span>     = <span class="c-str">{https://osf.io/preprints/socarxiv/gjvcf_v1}</span>
+}</div>
         </div>
       </div>
       <div class="research-cta">
@@ -1353,6 +1462,18 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_respons
   function copyInstall(el) {
     navigator.clipboard.writeText('pip install cat-llm').then(() => {
       const btn = el.querySelector('.copy-btn');
+      btn.classList.add('copied');
+      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      }, 2000);
+    });
+  }
+
+  function copyBibtex(btn) {
+    const text = document.getElementById('bibtex-text').innerText;
+    navigator.clipboard.writeText(text).then(() => {
       btn.classList.add('copied');
       btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>';
       setTimeout(() => {
