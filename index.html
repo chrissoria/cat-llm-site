@@ -307,6 +307,17 @@
       cursor: pointer;
       transition: border-color 0.2s;
       max-width: fit-content;
+      /* Pin width to fit the longer R install command so the card stays
+         the same size when toggling Python ↔ R, preventing the hero from
+         reflowing (and the three buttons from wrapping on narrow widths). */
+      min-width: 72ch;
+    }
+    @media (max-width: 720px) {
+      .install-cmd {
+        min-width: 0;
+        max-width: 100%;
+      }
+      .install-cmd code { white-space: normal; word-break: break-all; }
     }
 
     .install-cmd:hover { border-color: var(--border-hi); }
