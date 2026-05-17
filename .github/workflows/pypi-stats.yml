@@ -1,0 +1,31 @@
+name: Update PyPI download stats
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # daily at 06:00 UTC
+  workflow_dispatch:       # manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch pypistats and write assets/stats.json
+        run: |
+          DATA=$(curl -sf "https://pypistats.org/api/packages/cat-llm/recent") || { echo "Fetch failed"; exit 0; }
+          LAST_MONTH=$(echo "$DATA" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['data']['last_month'])")
+          mkdir -p assets
+          echo "{\"last_month\":$LAST_MONTH}" > assets/stats.json
+          echo "last_month=$LAST_MONTH"
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/stats.json
+          git diff --cached --quiet || git commit -m "chore: update PyPI download stats [skip ci]"
+          git push

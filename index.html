@@ -446,7 +446,7 @@
 
     .stats-inner {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 0;
     }
 
@@ -1136,9 +1136,13 @@
       .code-inner { grid-template-columns: 1fr; }
       .research-inner { grid-template-columns: 1fr; }
       .stats-inner { grid-template-columns: repeat(2, 1fr); }
-      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(2),
+      .stat-item:nth-child(4) { border-right: none; }
       .stat-item:nth-child(3) { border-right: 1px solid var(--border); }
-      .stat-item:nth-child(3), .stat-item:nth-child(4) { border-top: 1px solid var(--border); }
+      .stat-item:nth-child(3),
+      .stat-item:nth-child(4),
+      .stat-item:nth-child(5) { border-top: 1px solid var(--border); }
+      .stat-item:nth-child(5) { border-right: none; grid-column: 1 / -1; }
       /* Stack the language tabs above the install snippet so they
          don't sit beside it when the column narrows. width: max-content
          keeps the tabs only as wide as their content (don't stretch). */
@@ -1274,6 +1278,10 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
       <div class="stat-item">
         <div class="stat-num">100<span>%</span></div>
         <div class="stat-label">open-source &amp; self-hostable</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" id="pypi-dl-num">—</div>
+        <div class="stat-label">PyPI downloads last month</div>
       </div>
     </div>
   </div>
@@ -1931,6 +1939,58 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_respons
   document.querySelectorAll('.hero .reveal, .hero-panel').forEach(el => {
     el.classList.add('visible');
   });
+
+  // PyPI download counter — fetches last-month count from pypistats.org,
+  // then animates a count-up when the stats bar scrolls into view.
+  (function () {
+    const el = document.getElementById('pypi-dl-num');
+    if (!el) return;
+
+    let target = null;
+    let animated = false;
+
+    function fmt(n) {
+      if (n >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, '') + '<span>M+</span>';
+      if (n >= 1e3) return (n / 1e3).toFixed(1).replace(/\.0$/, '') + '<span>k+</span>';
+      return n.toLocaleString() + '<span>+</span>';
+    }
+
+    function countUp(to) {
+      if (animated) return;
+      animated = true;
+      const duration = 1400;
+      const start = performance.now();
+      function step(now) {
+        const p = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        const cur = Math.round(ease * to);
+        el.innerHTML = fmt(cur);
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    // Trigger animation when stats bar enters view.
+    const statsBar = document.querySelector('.stats-bar');
+    const statObs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && target !== null) countUp(target);
+    }, { threshold: 0.3 });
+    if (statsBar) statObs.observe(statsBar);
+
+    // Fetch from the baked-in stats.json (updated daily by GitHub Actions).
+    fetch('./assets/stats.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        const count = data?.last_month;
+        if (!count || count < 1) return;
+        target = count;
+        // If already visible, start immediately.
+        if (statsBar && statsBar.getBoundingClientRect().top < window.innerHeight * 0.9) {
+          countUp(target);
+        }
+      })
+      .catch(() => {});
+  })();
 </script>
 </body>
 </html>
