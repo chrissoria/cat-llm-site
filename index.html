@@ -315,6 +315,41 @@
       font-family: var(--font-mono);
       font-size: 0.85rem;
       color: var(--teal);
+      white-space: nowrap;
+    }
+
+    /* Language-picker tabs. Two shapes: hero-attached and inline-pill. */
+    .lang-tabs {
+      display: inline-flex;
+      gap: 0;
+      background: transparent;
+      margin-bottom: 6px;
+    }
+    .lang-tab {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: 0;
+      background: transparent;
+      color: var(--text-3);
+      cursor: pointer;
+      transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+    .lang-tab:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
+    .lang-tab:last-child  { border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-left: none; }
+    .lang-tab:hover { color: var(--text); }
+    .lang-tab.is-active {
+      background: var(--bg-3);
+      color: var(--teal);
+      border-color: var(--teal-dim);
+    }
+    .lang-tab.is-active + .lang-tab { border-left-color: var(--border); }
+
+    .lang-tabs--inline {
+      margin-top: 14px;
     }
 
     .copy-btn {
@@ -1151,7 +1186,14 @@
             Download Desktop App
           </a>
         </div>
-        <div class="install-cmd" onclick="copyInstall(this)" title="Click to copy">
+        <div class="lang-tabs">
+          <button type="button" class="lang-tab is-active" data-lang="python" onclick="setInstallLang('python')">Python</button>
+          <button type="button" class="lang-tab" data-lang="r" onclick="setInstallLang('r')">R</button>
+        </div>
+        <div class="install-cmd"
+             data-install-pip="pip install cat-llm"
+             data-install-r='install.packages("cat.llm", repos = "https://chrissoria.r-universe.dev")'
+             onclick="copyInstallCmd(this)" title="Click to copy">
           <code>pip install cat-llm</code>
           <button class="copy-btn" aria-label="Copy">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -1334,6 +1376,10 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
       <div class="section-label">Ecosystem</div>
       <h2 class="section-title">Domain-specific packages</h2>
       <p class="section-desc">Six domain packages built on the shared <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">cat-stack</code> engine. Each adds optimized prompts, specialized parameters, and built-in data sources for its domain — while exposing the same <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">classify()</code> / <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">extract()</code> API.</p>
+      <div class="lang-tabs lang-tabs--inline">
+        <button type="button" class="lang-tab is-active" data-lang="python" onclick="setInstallLang('python')">Python</button>
+        <button type="button" class="lang-tab" data-lang="r" onclick="setInstallLang('r')">R</button>
+      </div>
     </div>
     <div class="packages-grid">
       <div class="pkg-card reveal reveal-delay-1">
@@ -1341,7 +1387,10 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
         <div class="pkg-name">cat-survey</div>
         <div class="pkg-domain">Survey Responses</div>
         <p class="pkg-desc">Classify open-ended survey responses at scale. Handles ambiguity with verbose category definitions and ensemble voting.</p>
-        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-survey')">
+        <div class="pkg-install"
+             data-install-pip="pip install cat-survey"
+             data-install-r='install.packages("cat.survey", repos = "https://chrissoria.r-universe.dev")'
+             onclick="copyInstallCmd(this)">
           <code>pip install cat-survey</code>
           <button class="copy-btn" aria-label="Copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
         </div>
@@ -1351,7 +1400,10 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
         <div class="pkg-name">cat-pol</div>
         <div class="pkg-domain">Political Text</div>
         <p class="pkg-desc">17 built-in data sources: municipal ordinances, federal laws, executive orders, presidential speeches, and more. Updated weekly.</p>
-        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-pol')">
+        <div class="pkg-install"
+             data-install-pip="pip install cat-pol"
+             data-install-r='install.packages("cat.pol", repos = "https://chrissoria.r-universe.dev")'
+             onclick="copyInstallCmd(this)">
           <code>pip install cat-pol</code>
           <button class="copy-btn" aria-label="Copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
         </div>
@@ -1361,7 +1413,10 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
         <div class="pkg-name">cat-vader</div>
         <div class="pkg-domain">Social Media</div>
         <p class="pkg-desc">Classify social media posts, comments, and short-form text with domain-tuned prompts for informal language.</p>
-        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-vader')">
+        <div class="pkg-install"
+             data-install-pip="pip install cat-vader"
+             data-install-r='install.packages("cat.vader", repos = "https://chrissoria.r-universe.dev")'
+             onclick="copyInstallCmd(this)">
           <code>pip install cat-vader</code>
           <button class="copy-btn" aria-label="Copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
         </div>
@@ -1371,7 +1426,10 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
         <div class="pkg-name">cat-ademic</div>
         <div class="pkg-domain">Academic Papers</div>
         <p class="pkg-desc">Classify and summarize academic abstracts, full texts, and research documents across disciplines.</p>
-        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-ademic')">
+        <div class="pkg-install"
+             data-install-pip="pip install cat-ademic"
+             data-install-r='install.packages("cat.ademic", repos = "https://chrissoria.r-universe.dev")'
+             onclick="copyInstallCmd(this)">
           <code>pip install cat-ademic</code>
           <button class="copy-btn" aria-label="Copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
         </div>
@@ -1381,7 +1439,10 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
         <div class="pkg-name">cat-cog</div>
         <div class="pkg-domain">Cognitive Assessment</div>
         <p class="pkg-desc">Specialized tools for cognitive assessment scoring, including CERAD drawing evaluation for dementia research.</p>
-        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-cog')">
+        <div class="pkg-install"
+             data-install-pip="pip install cat-cog"
+             data-install-r='install.packages("cat.cog", repos = "https://chrissoria.r-universe.dev")'
+             onclick="copyInstallCmd(this)">
           <code>pip install cat-cog</code>
           <button class="copy-btn" aria-label="Copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
         </div>
@@ -1391,7 +1452,10 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
         <div class="pkg-name">cat-web</div>
         <div class="pkg-domain">Web Content</div>
         <p class="pkg-desc">Classify scraped web pages, articles, and HTML content with domain-tuned prompts for long-form online text.</p>
-        <div class="pkg-install" onclick="copyPkg(this, 'pip install cat-web')">
+        <div class="pkg-install"
+             data-install-pip="pip install cat-web"
+             data-install-r='install.packages("cat.web", repos = "https://chrissoria.r-universe.dev")'
+             onclick="copyInstallCmd(this)">
           <code>pip install cat-web</code>
           <button class="copy-btn" aria-label="Copy"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
         </div>
@@ -1613,7 +1677,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
       <div>
         <div class="section-label reveal">Example</div>
         <h2 class="section-title reveal">From raw responses<br>to coded data</h2>
-        <p class="section-desc reveal" style="margin-bottom:28px;">A complete classification pipeline in under 10 lines of Python. Works the same way in R via the reticulate wrapper.</p>
+        <p class="section-desc reveal" style="margin-bottom:28px;">A complete classification pipeline in under 10 lines of Python. The same workflow runs in R via the native <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">cat.llm</code> package on <a href="https://chrissoria.r-universe.dev" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">R-universe</a>.</p>
         <div class="reveal reveal-delay-1" style="display:flex;flex-direction:column;gap:12px;">
           <div style="display:flex;align-items:flex-start;gap:12px;padding:16px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;">
             <span style="color:var(--teal);font-size:1.1rem;margin-top:1px;">✓</span>
@@ -1771,15 +1835,41 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_respons
 </footer>
 
 <script>
-  // Copy install command
-  function copyInstall(el) {
-    navigator.clipboard.writeText('pip install cat-llm').then(() => {
+  // Language toggle — flips every install widget on the page at once.
+  // State is mirrored to localStorage so the choice persists across refreshes.
+  window.installLang = (function () {
+    try { return localStorage.getItem('installLang') || 'python'; }
+    catch (e) { return 'python'; }
+  })();
+
+  function setInstallLang(lang) {
+    window.installLang = lang;
+    try { localStorage.setItem('installLang', lang); } catch (e) {}
+    document.querySelectorAll('[data-install-pip]').forEach(el => {
+      const cmd = lang === 'r' ? el.dataset.installR : el.dataset.installPip;
+      const code = el.querySelector('code');
+      if (code && cmd) code.textContent = cmd;
+    });
+    document.querySelectorAll('.lang-tab').forEach(tab => {
+      tab.classList.toggle('is-active', tab.dataset.lang === lang);
+    });
+  }
+  // Apply persisted choice on first paint.
+  document.addEventListener('DOMContentLoaded', () => setInstallLang(window.installLang));
+
+  // Copy whichever install command is currently visible.
+  function copyInstallCmd(el) {
+    const cmd = el.querySelector('code')?.textContent || '';
+    if (!cmd) return;
+    navigator.clipboard.writeText(cmd).then(() => {
       const btn = el.querySelector('.copy-btn');
+      if (!btn) return;
+      const restore = btn.innerHTML;
       btn.classList.add('copied');
       btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>';
       setTimeout(() => {
         btn.classList.remove('copied');
-        btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+        btn.innerHTML = restore;
       }, 2000);
     });
   }
@@ -1796,17 +1886,8 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_respons
     });
   }
 
-  function copyPkg(el, cmd) {
-    navigator.clipboard.writeText(cmd).then(() => {
-      const btn = el.querySelector('.copy-btn');
-      btn.classList.add('copied');
-      btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>';
-      setTimeout(() => {
-        btn.classList.remove('copied');
-        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
-      }, 2000);
-    });
-  }
+  // Backwards-compat: any straggler onclick="copyPkg(this, '…')" still works.
+  function copyPkg(el, cmd) { copyInstallCmd(el); }
 
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
