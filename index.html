@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CatLLM — Reproducible LLM Text Classification</title>
-  <meta name="description" content="An open-source Python & R ecosystem for LLM-powered text classification. Validated against expert human coders — 88–99% accuracy across survey tasks. Provider-agnostic. Fully local deployment." />
+  <meta name="description" content="An open-source Python & R ecosystem for LLM-powered text classification. Validated against expert human coders, with 88–99% accuracy across survey tasks. Provider-agnostic. Fully local deployment." />
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1186,7 +1186,7 @@
         <h1 class="hero-title">Cat<span class="teal">LLM</span></h1>
         <p class="hero-subtitle">A reproducible LLM pipeline<br>for classifying open-ended text</p>
         <p class="hero-desc">
-          A Python and R toolkit for systematic text classification using large language models. Validated against expert human coders across 30+ LLMs and 4 survey tasks — <strong>88–99% accuracy</strong> depending on the task (<a href="https://osf.io/preprints/socarxiv/gjvcf_v1" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">Soria 2026</a>). Provider-agnostic — runs on GPT, Gemini, Qwen, Claude, or fully local open-weight models via Ollama.
+          A Python and R toolkit for classifying open-ended text with large language models. Across 30+ LLMs and 4 survey tasks, accuracy against expert human coders ranges from <strong>88% to 99%</strong> depending on the task (<a href="https://osf.io/preprints/socarxiv/gjvcf_v1" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">Soria 2026</a>). Works with GPT, Gemini, Qwen, Claude, or fully local open-weight models via Ollama.
         </p>
         <div class="hero-citation">
           <span>Soria, C.</span>
@@ -1285,7 +1285,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
     <div class="features-header reveal">
       <div class="section-label">Design Principles</div>
       <h2 class="section-title">Designed for empirical research</h2>
-      <p class="section-desc">Defaults grounded in systematic evaluation — so methodological choices are documented, defensible, and reproducible.</p>
+      <p class="section-desc">Defaults grounded in systematic evaluation, so methodological choices are documented, defensible, and reproducible.</p>
     </div>
     <div class="features-grid">
       <div class="feature-card reveal reveal-delay-1">
@@ -1327,7 +1327,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
       <div>
         <div class="section-label reveal">How it works</div>
         <h2 class="section-title reveal">A three-stage<br>classification pipeline</h2>
-        <p class="section-desc reveal" style="margin-bottom:40px;">From raw text to coded data — no predefined categories required.</p>
+        <p class="section-desc reveal" style="margin-bottom:40px;">From raw text to coded data. No predefined categories required.</p>
         <div class="pipeline-steps">
           <div class="pipeline-step reveal reveal-delay-1">
             <div class="step-num">01</div>
@@ -1398,7 +1398,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
     <div class="packages-header reveal">
       <div class="section-label">Ecosystem</div>
       <h2 class="section-title">Domain-specific packages</h2>
-      <p class="section-desc">Six domain packages built on the shared <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">cat-stack</code> engine. Each adds optimized prompts, specialized parameters, and built-in data sources for its domain — while exposing the same <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">classify()</code> / <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">extract()</code> API.</p>
+      <p class="section-desc">Six domain packages built on the shared <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">cat-stack</code> engine. Each adds optimized prompts, specialized parameters, and built-in data sources for its domain, while exposing the same <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">classify()</code> / <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">extract()</code> API.</p>
       <div class="lang-tabs lang-tabs--inline">
         <button type="button" class="lang-tab is-active" data-lang="python" onclick="setInstallLang('python')">Python</button>
         <button type="button" class="lang-tab" data-lang="r" onclick="setInstallLang('r')">R</button>
@@ -1593,7 +1593,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
 
       <div class="download-copy reveal">
         <h3>Choose your platform</h3>
-        <p>Apple Silicon is shipping now. Intel and Windows builds are on the roadmap — same feature set, same UI.</p>
+        <p>Apple Silicon is shipping now. Intel and Windows builds are on the roadmap, with the same feature set and the same UI.</p>
 
         <div class="download-platforms">
           <a href="https://huggingface.co/chrissoria/catllm-desktop/resolve/main/CatLLM-3.1.1-arm64.dmg" class="platform-card is-active" download>
@@ -1614,7 +1614,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
         </div>
 
         <div class="download-note">
-          First launch only: macOS may say <em>"Apple cannot check it for malicious software"</em> — right-click the app in Applications → <strong>Open</strong> → <strong>Open</strong>. Verify your download with the matching <a href="https://huggingface.co/chrissoria/catllm-desktop/tree/main" style="color:var(--teal);">SHA-256</a>.
+          First launch only: macOS may say <em>"Apple cannot check it for malicious software."</em> Right-click the app in Applications → <strong>Open</strong> → <strong>Open</strong>. Verify your download with the matching <a href="https://huggingface.co/chrissoria/catllm-desktop/tree/main" style="color:var(--teal);">SHA-256</a>.
         </div>
       </div>
     </div>
