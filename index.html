@@ -312,7 +312,9 @@
          reflowing (and the three buttons from wrapping on narrow widths). */
       min-width: 72ch;
     }
-    @media (max-width: 720px) {
+    @media (max-width: 900px) {
+      /* Once the hero stacks to one column, the 72ch min-width overflows
+         the content column. Drop it and let the code wrap inside. */
       .install-cmd {
         min-width: 0;
         max-width: 100%;
@@ -1117,6 +1119,13 @@
     .reveal-delay-4 { transition-delay: 0.4s; }
 
     /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 1000px) {
+      /* Nav has 7 items + a CTA pill; below ~1000px they collide before
+         the CTA wraps to a second line. Collapse early — there's no
+         mobile menu, but the page is short enough to scroll. */
+      .nav-links { display: none; }
+    }
+
     @media (max-width: 900px) {
       .hero-inner { grid-template-columns: 1fr; }
       .hero-panel { display: none; }
@@ -1130,11 +1139,14 @@
       .stat-item:nth-child(2) { border-right: none; }
       .stat-item:nth-child(3) { border-right: 1px solid var(--border); }
       .stat-item:nth-child(3), .stat-item:nth-child(4) { border-top: 1px solid var(--border); }
+      /* Stack the language tabs above the install snippet so they
+         don't sit beside it when the column narrows. width: max-content
+         keeps the tabs only as wide as their content (don't stretch). */
+      .lang-tabs { display: flex; width: max-content; }
     }
 
     @media (max-width: 560px) {
       .packages-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
       .hero { padding: 90px 0 50px; }
       .stats-inner { grid-template-columns: 1fr 1fr; }
       .research-inner { padding: 36px; }
