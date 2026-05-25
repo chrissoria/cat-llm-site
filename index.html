@@ -136,16 +136,6 @@
       max-width: 760px;
     }
 
-    .hero-eyebrow {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--text-3);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      margin-bottom: 18px;
-    }
-
     .hero-title {
       font-family: var(--font-disp);
       font-size: clamp(2.4rem, 4.5vw, 3.6rem);
@@ -775,70 +765,9 @@
       max-width: 620px;
     }
 
-    .research-meta {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .research-chip {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-2);
-    }
-
-    .research-chip::before {
-      content: '';
-      width: 4px; height: 4px;
-      background: var(--teal);
-      border-radius: 50%;
-    }
-
     .research-cta {
       flex-shrink: 0;
     }
-
-    /* ── Citation block ──────────────────────────────────── */
-    .cite-block {
-      margin-top: 36px;
-      background: var(--bg-3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    .cite-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
-      background: rgba(0,0,0,0.2);
-    }
-
-    .cite-label {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--text-3);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .cite-body {
-      padding: 16px 18px;
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      line-height: 1.65;
-      color: #c8d0de;
-      white-space: pre;
-      overflow-x: auto;
-    }
-
-    .cite-body .c-key { color: #7eb8f7; }
-    .cite-body .c-str { color: #f5c27a; }
 
     /* ── Footer ───────────────────────────────────────────── */
     footer {
@@ -952,11 +881,10 @@
 <section class="hero">
   <div class="container">
     <div class="hero-inner">
-        <div class="hero-eyebrow">Soria · UC Berkeley · Python &amp; R</div>
         <h1 class="hero-title">CatLLM</h1>
         <p class="hero-subtitle">A reproducible LLM pipeline for classifying open-ended text.</p>
         <p class="hero-desc">
-          An open-source Python and R toolkit for classifying open-ended text with large language models. Validated across more than 30 LLMs on a range of survey tasks and datasets, with <strong>88% to 99%</strong> agreement against expert human coders depending on the task (<a href="https://osf.io/preprints/socarxiv/gjvcf_v1" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">Soria 2026</a>), and used in several academic research papers. Compatible with GPT, Gemini, and Claude, or run fully locally on any open-weight Hugging Face model via Ollama.
+          An open-source Python and R toolkit for classifying open-ended text with large language models. For survey classification, defaults are calibrated against the consensus of double-blind coding by sociologists and demographers across multiple datasets, yielding <strong>88% to 99%</strong> agreement with human coders across 30+ LLMs depending on the task (<a href="https://osf.io/preprints/socarxiv/gjvcf_v1" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">Soria 2026</a>). The same engine underlies separate packages for other text domains; the toolkit has been used in several academic research papers. Compatible with GPT, Gemini, and Claude, with the Hugging Face Inference API for hosted open-weight models, or with Ollama for fully local inference.
         </p>
         <div class="hero-citation">
           <span>Soria, C.</span>
@@ -1009,11 +937,11 @@
     <dl class="features-list">
       <div>
         <dt>Multi-model ensembles</dt>
-        <dd>Aggregate predictions across models with unanimous voting. Inexpensive open-weight ensembles can match or exceed individual frontier models at a fraction of the cost.</dd>
+        <dd>Aggregate predictions across models with unanimous voting. Open-weight ensembles can reach agreement comparable to individual frontier models at lower per-call cost (Soria 2026).</dd>
       </div>
       <div>
         <dt>Provider-agnostic</dt>
-        <dd>Compatible with GPT, Gemini, and Claude, plus any open-weight Hugging Face model served locally via Ollama. REST-based with no SDK dependencies; switch providers without changing analysis code.</dd>
+        <dd>Compatible with GPT, Gemini, and Claude. Open-weight Hugging Face models can be accessed through the Hugging Face Inference API or served locally via Ollama. REST-based with no SDK dependencies; switching providers does not require changes to analysis code.</dd>
       </div>
       <div>
         <dt>Local-only deployment</dt>
@@ -1047,14 +975,14 @@
             <div class="step-num">02</div>
             <div class="step-content">
               <div class="step-title">Extract</div>
-              <p class="step-desc">Extract structured classifications at scale. Batch processing handles entire dataframe columns with configurable model selection and provider routing.</p>
+              <p class="step-desc">Extract structured classifications across full dataframe columns. Batches are processed with configurable model selection and provider routing.</p>
             </div>
           </div>
           <div class="pipeline-step reveal reveal-delay-3">
             <div class="step-num">03</div>
             <div class="step-content">
               <div class="step-title">Classify</div>
-              <p class="step-desc">Assign categories with multi-label support and ensemble voting. Verbose definitions with inclusion/exclusion criteria dramatically reduce over-classification.</p>
+              <p class="step-desc">Assign categories with multi-label support and ensemble voting. Verbose definitions with inclusion/exclusion criteria reduce spurious classification, as documented in Soria 2026.</p>
             </div>
           </div>
         </div>
@@ -1288,7 +1216,7 @@
     <div class="download-header reveal">
       <div class="section-label">Desktop application</div>
       <h2 class="section-title">For collaborators without a Python environment</h2>
-      <p class="section-desc">A self-contained desktop app wraps the same <code>cat-llm</code> pipeline used in the libraries — no Python install, no terminal. The engine, outputs, and generated reproducibility scripts are identical to the package, so co-authors and research assistants can run the same workflow.</p>
+      <p class="section-desc">A desktop build of the same <code>cat-llm</code> pipeline, distributed as a self-contained application. Outputs and the generated reproducibility scripts are the same as the library; the audience is collaborators who do not maintain a local Python environment.</p>
     </div>
 
     <div class="download-grid">
@@ -1297,8 +1225,7 @@
       </div>
 
       <div class="download-copy reveal">
-        <h3>Choose your platform</h3>
-        <p>Apple Silicon is shipping now. Intel and Windows builds are on the roadmap, with the same feature set and the same UI.</p>
+        <p>Apple Silicon builds are available below. Intel and Windows builds are planned.</p>
 
         <div class="download-platforms">
           <a href="https://huggingface.co/chrissoria/catllm-desktop/resolve/main/CatLLM-3.1.1-arm64.dmg" class="platform-card is-active" download>
@@ -1392,7 +1319,7 @@
       </table>
 
       <div class="compare-note">
-        <strong>When the alternatives are right:</strong> general-purpose chat tools are excellent for ad-hoc exploration, one-off summarization, and drafting an initial codebook. Manual coding remains the gold standard for small samples where qualitative depth matters more than scale. CatLLM is built for the case in between — when you need <em>chat-level fluency</em> applied with <em>statistical-software discipline</em>.
+        <strong>When the alternatives are right:</strong> general-purpose chat tools are useful for ad-hoc exploration, one-off summarization, and drafting an initial codebook. Manual coding remains the gold standard for small samples where qualitative depth matters more than scale. CatLLM is intended for the case in between: research datasets where the analyst wants LLM fluency together with the reproducibility expected of statistical software.
       </div>
     </div>
   </div>
@@ -1405,30 +1332,7 @@
       <div>
         <div class="section-label reveal">Example</div>
         <h2 class="section-title reveal">From raw responses to coded data</h2>
-        <p class="section-desc reveal" style="margin-bottom:28px;">A complete classification pipeline in roughly ten lines of Python. The same workflow is available in R through the <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">cat.llm</code> package on <a href="https://chrissoria.r-universe.dev" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">R-universe</a>.</p>
-        <div class="reveal reveal-delay-1" style="display:flex;flex-direction:column;gap:12px;">
-          <div style="display:flex;align-items:flex-start;gap:12px;padding:16px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;">
-            <span style="color:var(--teal);font-size:1.1rem;margin-top:1px;">✓</span>
-            <div>
-              <div style="font-size:0.85rem;font-weight:500;color:var(--white);margin-bottom:3px;">Multi-label support</div>
-              <div style="font-size:0.8rem;color:var(--text-2);">One response can belong to multiple categories simultaneously.</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:12px;padding:16px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;">
-            <span style="color:var(--teal);font-size:1.1rem;margin-top:1px;">✓</span>
-            <div>
-              <div style="font-size:0.85rem;font-weight:500;color:var(--white);margin-bottom:3px;">Automatic "Other" escape valve</div>
-              <div style="font-size:0.8rem;color:var(--text-2);">Prevents forced miscategorization of ambiguous responses.</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:12px;padding:16px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;">
-            <span style="color:var(--teal);font-size:1.1rem;margin-top:1px;">✓</span>
-            <div>
-              <div style="font-size:0.85rem;font-weight:500;color:var(--white);margin-bottom:3px;">CSV-ready output</div>
-              <div style="font-size:0.8rem;color:var(--text-2);">Results export directly for use in Stata, R, or Python.</div>
-            </div>
-          </div>
-        </div>
+        <p class="section-desc reveal" style="margin-bottom:28px;">A minimal end-to-end pipeline in Python. The same workflow is available in R through the <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">cat.llm</code> package on <a href="https://chrissoria.r-universe.dev" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">R-universe</a>.</p>
       </div>
       <div class="code-block reveal reveal-delay-2">
         <div class="code-header">
@@ -1489,39 +1393,6 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_respons
             <span style="color:var(--text-3);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Software paper <a href="https://doi.org/10.21105/joss.09678" target="_blank" style="margin-left:6px;"><img src="https://joss.theoj.org/papers/10.21105/joss.09678/status.svg" alt="JOSS DOI" style="height:16px;vertical-align:middle;"></a></span>
             Soria, C. (2026). <em style="color:var(--text);font-style:italic;">Scaling Open-Ended Survey Coding: An LLM Pipeline Where Definitions Do the Heavy Lifting</em>. <em>Journal of Open Source Software</em>. <a href="https://doi.org/10.21105/joss.09678" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">doi.org/10.21105/joss.09678</a>
           </div>
-        </div>
-        <div class="research-meta">
-          <span class="research-chip">21 LLMs</span>
-          <span class="research-chip">6 providers</span>
-          <span class="research-chip">4 survey tasks</span>
-          <span class="research-chip">Expert human benchmark</span>
-        </div>
-
-        <div class="cite-block" id="bibtex-block">
-          <div class="cite-header">
-            <span class="cite-label">BibTeX</span>
-            <button class="copy-btn" onclick="copyBibtex(this)" aria-label="Copy BibTeX">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            </button>
-          </div>
-<div class="cite-body" id="bibtex-text"><span class="c-key">@article</span>{soria2026catllm,
-  <span class="c-key">title</span>     = <span class="c-str">{Scaling Open-Ended Survey Coding: An {LLM} Pipeline
-               Where Definitions Do the Heavy Lifting}</span>,
-  <span class="c-key">author</span>    = <span class="c-str">{Soria, Chris}</span>,
-  <span class="c-key">year</span>      = <span class="c-str">{2026}</span>,
-  <span class="c-key">journal</span>   = <span class="c-str">{SocArXiv}</span>,
-  <span class="c-key">url</span>       = <span class="c-str">{https://osf.io/preprints/socarxiv/gjvcf_v1}</span>
-}
-
-<span class="c-key">@article</span>{soria2026catllm_joss,
-  <span class="c-key">title</span>     = <span class="c-str">{Scaling Open-Ended Survey Coding: An {LLM} Pipeline
-               Where Definitions Do the Heavy Lifting}</span>,
-  <span class="c-key">author</span>    = <span class="c-str">{Soria, Chris}</span>,
-  <span class="c-key">year</span>      = <span class="c-str">{2026}</span>,
-  <span class="c-key">journal</span>   = <span class="c-str">{Journal of Open Source Software}</span>,
-  <span class="c-key">doi</span>       = <span class="c-str">{10.21105/joss.09678}</span>,
-  <span class="c-key">url</span>       = <span class="c-str">{https://doi.org/10.21105/joss.09678}</span>
-}</div>
         </div>
       </div>
       <div class="research-cta" style="display:flex;flex-direction:column;gap:10px;">
@@ -1605,18 +1476,6 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_respons
       setTimeout(() => {
         btn.classList.remove('copied');
         btn.innerHTML = restore;
-      }, 2000);
-    });
-  }
-
-  function copyBibtex(btn) {
-    const text = document.getElementById('bibtex-text').innerText;
-    navigator.clipboard.writeText(text).then(() => {
-      btn.classList.add('copied');
-      btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>';
-      setTimeout(() => {
-        btn.classList.remove('copied');
-        btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
       }, 2000);
     });
   }
