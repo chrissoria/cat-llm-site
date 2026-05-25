@@ -8,33 +8,33 @@
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <style>
     /* ── Reset & Variables ─────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:         #1a1a1a;
-      --bg-2:       #1f1f1f;
-      --bg-3:       #262626;
-      --border:     rgba(255,255,255,0.07);
-      --border-hi:  rgba(255,140,60,0.28);
-      --teal:       #00dcc3;
-      --teal-dim:   #00a89a;
-      --teal-glow:  rgba(0,220,195,0.12);
-      --teal-glow2: rgba(0,220,195,0.04);
-      --orange:     #ff8c3c;
-      --orange-glow: rgba(255,140,60,0.12);
-      --text:       #e8edf5;
-      --text-2:     #8a95a8;
-      --text-3:     #4e5a6d;
-      --white:      #ffffff;
-      --amber:      #f5a623;
-      --radius:     10px;
-      --radius-lg:  18px;
+      --bg:         #161616;
+      --bg-2:       #1c1c1c;
+      --bg-3:       #232323;
+      --border:     rgba(255,255,255,0.08);
+      --border-hi:  rgba(255,255,255,0.18);
+      --teal:       #7ab3aa;
+      --teal-dim:   #5a8a83;
+      --teal-glow:  rgba(122,179,170,0.10);
+      --teal-glow2: rgba(122,179,170,0.04);
+      --orange:     #c8946a;
+      --orange-glow: rgba(200,148,106,0.10);
+      --text:       #e6e6e3;
+      --text-2:     #9a9a96;
+      --text-3:     #6b6b67;
+      --white:      #f5f5f2;
+      --amber:      #c8946a;
+      --radius:     4px;
+      --radius-lg:  6px;
       --font-sans:  'DM Sans', sans-serif;
       --font-mono:  'DM Mono', monospace;
-      --font-disp:  'IBM Plex Sans', sans-serif;
+      --font-disp:  'Source Serif 4', Charter, 'Iowan Old Style', Georgia, serif;
     }
 
     html { scroll-behavior: smooth; }
@@ -48,26 +48,7 @@
       overflow-x: hidden;
     }
 
-    /* ── Background texture ─────────────────────────────── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,220,195,0.07) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 35% at 85% 75%, rgba(255,140,60,0.06) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .dot-grid {
-      position: fixed;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
-      background-size: 28px 28px;
-      pointer-events: none;
-      z-index: 0;
-    }
+    .dot-grid { display: none; }
 
     /* ── Layout ─────────────────────────────────────────── */
     .container {
@@ -85,9 +66,7 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      background: rgba(8,12,20,0.75);
+      background: rgba(22,22,22,0.92);
       border-bottom: 1px solid var(--border);
     }
 
@@ -103,21 +82,20 @@
 
     .nav-logo {
       font-family: var(--font-disp);
-      font-weight: 700;
-      font-size: 1.15rem;
+      font-weight: 600;
+      font-size: 1.1rem;
       color: var(--white);
       text-decoration: none;
-      letter-spacing: -0.02em;
+      letter-spacing: 0;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
     .nav-logo-mark {
-      height: 28px;
+      height: 24px;
       width: auto;
       display: block;
-      filter: drop-shadow(0 0 6px rgba(255,140,60,0.15));
     }
 
     .nav-links {
@@ -138,72 +116,57 @@
     .nav-links a:hover { color: var(--text); }
 
     .nav-cta {
-      background: var(--teal) !important;
-      color: var(--bg) !important;
-      padding: 6px 16px;
-      border-radius: 6px;
-      font-weight: 500 !important;
-      font-size: 0.85rem !important;
-      transition: opacity 0.2s !important;
+      color: var(--text) !important;
+      padding: 5px 12px;
+      border: 1px solid var(--border-hi);
+      border-radius: 3px;
+      font-weight: 400 !important;
+      font-size: 0.82rem !important;
+      transition: border-color 0.2s, color 0.2s !important;
     }
 
-    .nav-cta:hover { opacity: 0.85 !important; }
+    .nav-cta:hover { color: var(--teal) !important; border-color: var(--teal-dim); }
 
     /* ── Hero ─────────────────────────────────────────────── */
     .hero {
-      padding: 110px 0 70px;
+      padding: 100px 0 60px;
     }
 
     .hero-inner {
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      gap: 60px;
-      align-items: center;
+      max-width: 760px;
     }
 
     .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: inline-block;
       font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--teal);
-      letter-spacing: 0.12em;
+      font-size: 0.72rem;
+      color: var(--text-3);
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      margin-bottom: 22px;
-      padding: 5px 12px;
-      border: 1px solid var(--border-hi);
-      border-radius: 100px;
-      background: var(--teal-glow2);
-    }
-
-    .hero-eyebrow::before {
-      content: '';
-      width: 5px; height: 5px;
-      background: var(--teal);
-      border-radius: 50%;
+      margin-bottom: 18px;
     }
 
     .hero-title {
       font-family: var(--font-disp);
-      font-size: clamp(3rem, 7vw, 5.5rem);
-      font-weight: 700;
-      line-height: 0.95;
-      letter-spacing: -0.04em;
+      font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: -0.015em;
       color: var(--white);
-      margin-bottom: 10px;
+      margin-bottom: 14px;
     }
 
-    .hero-title .teal { color: var(--teal); }
+    .hero-title .teal { color: inherit; font-style: italic; font-weight: 500; }
 
     .hero-subtitle {
       font-family: var(--font-disp);
-      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-      font-weight: 500;
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      font-weight: 400;
+      font-style: italic;
       color: var(--text-2);
-      line-height: 1.4;
-      margin-bottom: 24px;
-      letter-spacing: -0.01em;
+      line-height: 1.45;
+      margin-bottom: 22px;
+      letter-spacing: 0;
     }
 
     .hero-desc {
@@ -225,12 +188,10 @@
       align-items: center;
       flex-wrap: wrap;
       font-family: var(--font-mono);
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: var(--text-3);
-      margin-bottom: 28px;
-      padding: 10px 14px;
-      border-left: 2px solid var(--teal-dim);
-      background: var(--teal-glow2);
+      margin-bottom: 26px;
+      padding: 0;
       max-width: fit-content;
     }
 
@@ -258,21 +219,21 @@
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      background: var(--teal);
+      background: var(--text);
       color: var(--bg);
       font-family: var(--font-sans);
-      font-size: 0.9rem;
-      font-weight: 600;
-      padding: 12px 24px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 10px 20px;
       border-radius: var(--radius);
       text-decoration: none;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 0 20px rgba(0,220,195,0.2);
+      transition: background 0.15s;
+      border: 1px solid var(--text);
     }
 
     .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 0 30px rgba(0,220,195,0.35);
+      background: var(--white);
+      border-color: var(--white);
     }
 
     .btn-secondary {
@@ -282,18 +243,18 @@
       background: transparent;
       color: var(--text);
       font-family: var(--font-sans);
-      font-size: 0.9rem;
-      font-weight: 500;
-      padding: 12px 22px;
+      font-size: 0.88rem;
+      font-weight: 400;
+      padding: 10px 18px;
       border-radius: var(--radius);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-hi);
       text-decoration: none;
-      transition: border-color 0.15s, background 0.15s;
+      transition: border-color 0.15s, color 0.15s;
     }
 
     .btn-secondary:hover {
-      border-color: rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.04);
+      border-color: var(--text-2);
+      color: var(--white);
     }
 
     .install-cmd {
@@ -379,57 +340,6 @@
     .copy-btn:hover { color: var(--text); }
     .copy-btn.copied { color: var(--teal); }
 
-    /* Hero right panel */
-    .hero-panel {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-panel::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--teal), transparent);
-      opacity: 0.5;
-    }
-
-    .panel-header {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .panel-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-    }
-
-    .pd-red   { background: #ff5f57; }
-    .pd-amber { background: #febc2e; }
-    .pd-green { background: #28c840; }
-
-    .panel-title {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--text-3);
-      margin-left: 8px;
-    }
-
-    .panel-code {
-      padding: 20px;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      line-height: 1.85;
-      color: #c8d0de;
-      overflow-x: auto;
-    }
-
     .c-keyword  { color: #7eb8f7; }
     .c-func     { color: #79d9c7; }
     .c-string   { color: #f5c27a; }
@@ -437,139 +347,77 @@
     .c-param    { color: #c8d0de; }
     .c-value    { color: #f5c27a; }
 
-    /* ── Stats bar ─────────────────────────────────────────── */
-    .stats-bar {
-      padding: 40px 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .stats-inner {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0;
-    }
-
-    .stat-item {
-      padding: 12px 24px;
-      text-align: center;
-      border-right: 1px solid var(--border);
-    }
-
-    .stat-item:last-child { border-right: none; }
-
-    .stat-num {
-      font-family: var(--font-disp);
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: -0.03em;
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-
-    .stat-num span { color: var(--orange); }
-
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--text-3);
-      font-weight: 400;
-    }
-
     /* ── Section headers ─────────────────────────────────── */
     .section-label {
       font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--teal);
+      font-size: 0.7rem;
+      color: var(--text-3);
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .section-title {
       font-family: var(--font-disp);
-      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-      font-weight: 700;
+      font-size: clamp(1.5rem, 2.6vw, 1.95rem);
+      font-weight: 600;
       color: var(--white);
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-bottom: 12px;
     }
 
     .section-desc {
       color: var(--text-2);
       font-size: 0.95rem;
       line-height: 1.7;
-      max-width: 540px;
+      max-width: 600px;
     }
 
     /* ── Features ─────────────────────────────────────────── */
-    .features { padding: 100px 0; }
+    .features { padding: 70px 0; }
 
-    .features-header { margin-bottom: 60px; }
+    .features-header { margin-bottom: 44px; }
 
-    .features-grid {
+    .features-list {
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .features-list > div {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
+      grid-template-columns: 220px 1fr;
+      gap: 36px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
     }
 
-    .feature-card {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 30px;
-      transition: border-color 0.25s, transform 0.25s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .feature-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: var(--radius-lg);
-      background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--teal-glow2), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .feature-card:hover {
-      border-color: var(--border-hi);
-      transform: translateY(-2px);
-    }
-
-    .feature-card:hover::after { opacity: 1; }
-
-    .feature-icon {
-      width: 40px; height: 40px;
-      background: var(--teal-glow);
-      border: 1px solid var(--border-hi);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 18px;
-      color: var(--teal);
-    }
-
-    .feature-title {
+    .features-list dt {
       font-family: var(--font-disp);
       font-size: 1.05rem;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--white);
-      margin-bottom: 8px;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.005em;
+      line-height: 1.3;
     }
 
-    .feature-desc {
-      font-size: 0.875rem;
+    .features-list dd {
+      margin: 0;
+      font-size: 0.92rem;
       color: var(--text-2);
       line-height: 1.65;
     }
 
+    @media (max-width: 720px) {
+      .features-list > div {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+    }
+
     /* ── Pipeline ─────────────────────────────────────────── */
-    .pipeline { padding: 100px 0; }
+    .pipeline { padding: 70px 0; }
 
     .pipeline-inner {
       display: grid;
@@ -597,27 +445,22 @@
 
     .step-num {
       font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--orange);
-      background: var(--orange-glow);
-      border: 1px solid rgba(255,140,60,0.22);
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-size: 0.78rem;
+      color: var(--text-3);
+      width: 32px;
       flex-shrink: 0;
       margin-top: 2px;
+      letter-spacing: 0.05em;
     }
 
     .step-content {}
 
     .step-title {
       font-family: var(--font-disp);
-      font-size: 1.05rem;
-      font-weight: 700;
+      font-size: 1.1rem;
+      font-weight: 600;
       color: var(--white);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.005em;
       margin-bottom: 6px;
     }
 
@@ -634,15 +477,6 @@
       padding: 28px;
       position: relative;
       overflow: hidden;
-    }
-
-    .pipeline-visual::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--teal), transparent);
-      opacity: 0.4;
     }
 
     .pv-header {
@@ -706,57 +540,44 @@
     }
 
     /* ── Domain Packages ──────────────────────────────────── */
-    .packages { padding: 100px 0; }
+    .packages { padding: 70px 0; }
 
-    .packages-header { margin-bottom: 60px; }
+    .packages-header { margin-bottom: 44px; }
 
     .packages-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      border-left: 1px solid var(--border);
     }
 
     .pkg-card {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      transition: border-color 0.25s, transform 0.25s;
+      background: transparent;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 22px 22px;
       position: relative;
     }
 
-    .pkg-card:hover {
-      border-color: var(--border-hi);
-      transform: translateY(-2px);
-    }
-
     .pkg-tag {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-3);
-      margin-bottom: 14px;
-      padding: 3px 8px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
+      display: none;
     }
 
     .pkg-name {
       font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--teal);
-      font-weight: 500;
+      font-size: 0.82rem;
+      color: var(--text-3);
+      font-weight: 400;
       margin-bottom: 4px;
     }
 
     .pkg-domain {
       font-family: var(--font-disp);
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 1.05rem;
+      font-weight: 600;
       color: var(--white);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.005em;
       margin-bottom: 8px;
     }
 
@@ -793,9 +614,9 @@
     }
 
     /* ── Comparison section ──────────────────────────────── */
-    .compare { padding: 100px 0; }
+    .compare { padding: 70px 0; }
 
-    .compare-header { margin-bottom: 50px; }
+    .compare-header { margin-bottom: 40px; }
 
     .compare-table {
       width: 100%;
@@ -875,7 +696,7 @@
     }
 
     /* ── Code section ─────────────────────────────────────── */
-    .code-section { padding: 100px 0; }
+    .code-section { padding: 70px 0; }
 
     .code-inner {
       display: grid;
@@ -890,15 +711,6 @@
       border-radius: var(--radius-lg);
       overflow: hidden;
       position: relative;
-    }
-
-    .code-block::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--teal), transparent);
-      opacity: 0.4;
     }
 
     .code-header {
@@ -937,49 +749,30 @@
     .code-text { white-space: pre; }
 
     /* ── Research ─────────────────────────────────────────── */
-    .research { padding: 100px 0; }
+    .research { padding: 70px 0; }
 
     .research-inner {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 60px;
+      background: transparent;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 44px 0;
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 60px;
-      align-items: center;
+      gap: 50px;
+      align-items: start;
       position: relative;
-      overflow: hidden;
-    }
-
-    .research-inner::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, var(--teal), transparent);
-      opacity: 0.5;
-    }
-
-    .research-inner::after {
-      content: '"';
-      position: absolute;
-      top: -10px; right: 40px;
-      font-family: var(--font-disp);
-      font-size: 14rem;
-      color: rgba(0,220,195,0.04);
-      line-height: 1;
-      pointer-events: none;
     }
 
     .research-quote {
       font-family: var(--font-disp);
-      font-size: clamp(1.1rem, 2vw, 1.35rem);
-      font-weight: 500;
+      font-size: clamp(1rem, 1.6vw, 1.15rem);
+      font-weight: 400;
+      font-style: italic;
       color: var(--text);
-      line-height: 1.6;
-      letter-spacing: -0.01em;
-      margin-bottom: 24px;
+      line-height: 1.55;
+      letter-spacing: 0;
+      margin-bottom: 22px;
+      max-width: 620px;
     }
 
     .research-meta {
@@ -1101,22 +894,8 @@
 
     .footer-links a:hover { color: var(--teal); }
 
-    /* ── Scroll animations ─────────────────────────────────── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
+    /* Scroll-reveal removed — content visible by default. */
+    .reveal, .reveal.visible { opacity: 1; transform: none; }
 
     /* ── Responsive ───────────────────────────────────────── */
     @media (max-width: 1000px) {
@@ -1127,22 +906,11 @@
     }
 
     @media (max-width: 900px) {
-      .hero-inner { grid-template-columns: 1fr; }
-      .hero-panel { display: none; }
-      .features-grid { grid-template-columns: 1fr; }
       .pipeline-inner { grid-template-columns: 1fr; }
       .pipeline-visual { display: none; }
       .packages-grid { grid-template-columns: repeat(2, 1fr); }
       .code-inner { grid-template-columns: 1fr; }
       .research-inner { grid-template-columns: 1fr; }
-      .stats-inner { grid-template-columns: repeat(2, 1fr); }
-      .stat-item:nth-child(2),
-      .stat-item:nth-child(4) { border-right: none; }
-      .stat-item:nth-child(3) { border-right: 1px solid var(--border); }
-      .stat-item:nth-child(3),
-      .stat-item:nth-child(4),
-      .stat-item:nth-child(5) { border-top: 1px solid var(--border); }
-      .stat-item:nth-child(5) { border-right: none; grid-column: 1 / -1; }
       /* Stack the language tabs above the install snippet so they
          don't sit beside it when the column narrows. width: max-content
          keeps the tabs only as wide as their content (don't stretch). */
@@ -1152,8 +920,7 @@
     @media (max-width: 560px) {
       .packages-grid { grid-template-columns: 1fr; }
       .hero { padding: 90px 0 50px; }
-      .stats-inner { grid-template-columns: 1fr 1fr; }
-      .research-inner { padding: 36px; }
+      .research-inner { padding: 36px 0; }
       .footer-inner { flex-direction: column; align-items: flex-start; }
     }
   </style>
@@ -1185,12 +952,11 @@
 <section class="hero">
   <div class="container">
     <div class="hero-inner">
-      <div class="hero-left">
-        <div class="hero-eyebrow">Open Source · Python &amp; R</div>
-        <h1 class="hero-title">Cat<span class="teal">LLM</span></h1>
-        <p class="hero-subtitle">A reproducible LLM pipeline<br>for classifying open-ended text</p>
+        <div class="hero-eyebrow">Soria · UC Berkeley · Python &amp; R</div>
+        <h1 class="hero-title">CatLLM</h1>
+        <p class="hero-subtitle">A reproducible LLM pipeline for classifying open-ended text.</p>
         <p class="hero-desc">
-          A Python and R toolkit for classifying open-ended text with large language models. Across 30+ LLMs and 4 survey tasks, accuracy against expert human coders ranges from <strong>88% to 99%</strong> depending on the task (<a href="https://osf.io/preprints/socarxiv/gjvcf_v1" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">Soria 2026</a>). Works with GPT, Gemini, Qwen, Claude, or fully local open-weight models via Ollama.
+          An open-source Python and R toolkit for classifying open-ended text with large language models. Validated across more than 30 LLMs on a range of survey tasks and datasets, with <strong>88% to 99%</strong> agreement against expert human coders depending on the task (<a href="https://osf.io/preprints/socarxiv/gjvcf_v1" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">Soria 2026</a>), and used in several academic research papers. Compatible with GPT, Gemini, and Claude, or run fully locally on any open-weight Hugging Face model via Ollama.
         </p>
         <div class="hero-citation">
           <span>Soria, C.</span>
@@ -1228,105 +994,36 @@
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           </button>
         </div>
-      </div>
-
-      <!-- Right code panel -->
-      <div class="hero-panel">
-        <div class="panel-header">
-          <div class="panel-dot pd-red"></div>
-          <div class="panel-dot pd-amber"></div>
-          <div class="panel-dot pd-green"></div>
-          <span class="panel-title">classify_survey.py</span>
-        </div>
-        <div class="panel-code">
-<span class="c-keyword">import</span> catsurvey <span class="c-keyword">as</span> cat<br>
-<br>
-<span class="c-comment"># Classify open-ended responses</span><br>
-results = cat.<span class="c-func">classify</span>(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;input_data=df[<span class="c-string">'responses'</span>],<br>
-&nbsp;&nbsp;&nbsp;&nbsp;categories=[<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-string">"Job change"</span>,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-string">"Family reasons"</span>,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-string">"Cost of living"</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;],<br>
-&nbsp;&nbsp;&nbsp;&nbsp;survey_question=<span class="c-string">"Why did you move?"</span>,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;api_key=api_key<br>
-)<br>
-<br>
-<span class="c-comment"># Export for analysis</span><br>
-results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</span>)
-        </div>
-      </div>
     </div>
   </div>
 </section>
-
-<!-- Stats -->
-<div class="stats-bar" style="position:relative;z-index:1;">
-  <div class="container">
-    <div class="stats-inner">
-      <div class="stat-item">
-        <div class="stat-num" style="letter-spacing:-0.04em;">88–99<span>%</span></div>
-        <div class="stat-label">accuracy across survey tasks <a href="https://osf.io/preprints/socarxiv/gjvcf_v1" target="_blank" style="color:var(--text-3);text-decoration:none;font-size:0.85em;" title="Soria 2026 — full benchmarks in the preprint">·&nbsp;Soria&nbsp;2026</a></div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">30<span>+</span></div>
-        <div class="stat-label">LLMs evaluated in validation</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">6</div>
-        <div class="stat-label">domain-specific packages</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">100<span>%</span></div>
-        <div class="stat-label">open-source &amp; self-hostable</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num" id="pypi-dl-num">—</div>
-        <div class="stat-label">PyPI downloads last month</div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Features -->
 <section class="features" id="features">
   <div class="container">
     <div class="features-header reveal">
-      <div class="section-label">Design Principles</div>
-      <h2 class="section-title">Designed for empirical research</h2>
-      <p class="section-desc">Defaults grounded in systematic evaluation, so methodological choices are documented, defensible, and reproducible.</p>
+      <div class="section-label">Design</div>
+      <h2 class="section-title">Defaults grounded in systematic evaluation</h2>
+      <p class="section-desc">Each design choice — model selection, prompt structure, ensembling, multi-label handling — is documented and reproducible, so methodological decisions can be inspected, modified, and reported in a paper.</p>
     </div>
-    <div class="features-grid">
-      <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        </div>
-        <div class="feature-title">Multi-model ensembles</div>
-        <p class="feature-desc">Aggregate predictions across models with unanimous voting. Inexpensive open-weight ensembles can match or exceed individual frontier models at a fraction of the cost.</p>
+    <dl class="features-list">
+      <div>
+        <dt>Multi-model ensembles</dt>
+        <dd>Aggregate predictions across models with unanimous voting. Inexpensive open-weight ensembles can match or exceed individual frontier models at a fraction of the cost.</dd>
       </div>
-      <div class="feature-card reveal reveal-delay-2">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
-        </div>
-        <div class="feature-title">Provider-agnostic</div>
-        <p class="feature-desc">Compatible with GPT, Gemini, Qwen, Claude, and open-weight models served via Ollama. REST-based with no SDK dependencies; switch providers without changing analysis code.</p>
+      <div>
+        <dt>Provider-agnostic</dt>
+        <dd>Compatible with GPT, Gemini, and Claude, plus any open-weight Hugging Face model served locally via Ollama. REST-based with no SDK dependencies; switch providers without changing analysis code.</dd>
       </div>
-      <div class="feature-card reveal reveal-delay-3">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        </div>
-        <div class="feature-title">Local-only deployment</div>
-        <p class="feature-desc">Runs entirely on local hardware via open-weight models. Sensitive data — survey responses, clinical text, PII — never leaves the machine, supporting IRB and HIPAA constraints.</p>
+      <div>
+        <dt>Local-only deployment</dt>
+        <dd>Runs entirely on local hardware via open-weight models. Sensitive data — survey responses, clinical text, PII — never leaves the machine, supporting IRB and HIPAA constraints.</dd>
       </div>
-      <div class="feature-card reveal reveal-delay-4">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        </div>
-        <div class="feature-title">Unified multimodal interface</div>
-        <p class="feature-desc">Text, images, and PDFs share one consistent API. Automatic input detection handles mixed datasets without per-modality configuration.</p>
+      <div>
+        <dt>Unified multimodal interface</dt>
+        <dd>Text, images, and PDFs share one consistent API. Automatic input detection handles mixed datasets without per-modality configuration.</dd>
       </div>
-    </div>
+    </dl>
   </div>
 </section>
 
@@ -1335,9 +1032,9 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
   <div class="container">
     <div class="pipeline-inner">
       <div>
-        <div class="section-label reveal">How it works</div>
-        <h2 class="section-title reveal">A three-stage<br>classification pipeline</h2>
-        <p class="section-desc reveal" style="margin-bottom:40px;">From raw text to coded data. No predefined categories required.</p>
+        <div class="section-label reveal">Method</div>
+        <h2 class="section-title reveal">A three-stage classification pipeline</h2>
+        <p class="section-desc reveal" style="margin-bottom:36px;">From raw text to coded data. The pipeline can either consume an existing codebook or induce one from a sample of responses; categories are not required up front.</p>
         <div class="pipeline-steps">
           <div class="pipeline-step reveal reveal-delay-1">
             <div class="step-num">01</div>
@@ -1406,9 +1103,9 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
 <section class="packages" id="packages">
   <div class="container">
     <div class="packages-header reveal">
-      <div class="section-label">Ecosystem</div>
+      <div class="section-label">Packages</div>
       <h2 class="section-title">Domain-specific packages</h2>
-      <p class="section-desc">Six domain packages built on the shared <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">cat-stack</code> engine. Each adds optimized prompts, specialized parameters, and built-in data sources for its domain, while exposing the same <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">classify()</code> / <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">extract()</code> API.</p>
+      <p class="section-desc">Six domain packages share a common <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">cat-stack</code> engine. Each ships with domain-tuned prompts, specialized parameters, and any built-in data sources relevant to that field, while exposing the same <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">classify()</code> / <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">extract()</code> API.</p>
       <div class="lang-tabs lang-tabs--inline">
         <button type="button" class="lang-tab is-active" data-lang="python" onclick="setInstallLang('python')">Python</button>
         <button type="button" class="lang-tab" data-lang="r" onclick="setInstallLang('r')">R</button>
@@ -1499,8 +1196,8 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
 
 <!-- Desktop Download -->
 <style>
-  .download { padding: 80px 0; background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .download-header { margin-bottom: 50px; text-align: center; }
+  .download { padding: 70px 0; background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .download-header { margin-bottom: 40px; }
   .download-grid {
     display: grid;
     grid-template-columns: 1.1fr 1fr;
@@ -1509,9 +1206,8 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
   }
   .download-shot {
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 6px;
     overflow: hidden;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(0,220,195,0.05);
     background: var(--bg-3);
   }
   .download-shot img { width: 100%; height: auto; display: block; }
@@ -1545,8 +1241,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
   }
   .platform-card.is-active:hover {
     border-color: var(--teal-dim);
-    transform: translateY(-2px);
-    background: rgba(0,220,195,0.04);
+    background: rgba(122,179,170,0.04);
   }
   .platform-card.is-soon {
     opacity: 0.55;
@@ -1591,9 +1286,9 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
 <section class="download" id="download">
   <div class="container">
     <div class="download-header reveal">
-      <div class="section-label">Desktop App</div>
-      <h2 class="section-title">Run CatLLM without writing any code</h2>
-      <p class="section-desc">A native, self-contained app that wraps the full <code>cat-llm</code> pipeline. No Python install, no terminal — drag, drop, classify. Same engine as the Python package, same outputs, same reproducibility code generation.</p>
+      <div class="section-label">Desktop application</div>
+      <h2 class="section-title">For collaborators without a Python environment</h2>
+      <p class="section-desc">A self-contained desktop app wraps the same <code>cat-llm</code> pipeline used in the libraries — no Python install, no terminal. The engine, outputs, and generated reproducibility scripts are identical to the package, so co-authors and research assistants can run the same workflow.</p>
     </div>
 
     <div class="download-grid">
@@ -1636,8 +1331,8 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
   <div class="container">
     <div class="compare-header reveal">
       <div class="section-label">Comparison</div>
-      <h2 class="section-title">When to use CatLLM</h2>
-      <p class="section-desc">Researchers already have access to powerful LLMs through ChatGPT, Claude, and Gemini. The question isn't whether LLMs can classify text — it's whether the workflow meets the standards of empirical research: reproducible, transparent, validated, and scalable.</p>
+      <h2 class="section-title">When CatLLM is the right tool</h2>
+      <p class="section-desc">LLMs are already accessible to most researchers through ChatGPT, Claude, and Gemini. The relevant question is not whether LLMs can classify text, but whether the workflow around them meets ordinary standards of empirical research — reproducible, transparent, validated, and scalable.</p>
     </div>
 
     <div class="reveal reveal-delay-1">
@@ -1709,8 +1404,8 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded.csv"</s
     <div class="code-inner">
       <div>
         <div class="section-label reveal">Example</div>
-        <h2 class="section-title reveal">From raw responses<br>to coded data</h2>
-        <p class="section-desc reveal" style="margin-bottom:28px;">A complete classification pipeline in under 10 lines of Python. The same workflow runs in R via the native <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">cat.llm</code> package on <a href="https://chrissoria.r-universe.dev" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">R-universe</a>.</p>
+        <h2 class="section-title reveal">From raw responses to coded data</h2>
+        <p class="section-desc reveal" style="margin-bottom:28px;">A complete classification pipeline in roughly ten lines of Python. The same workflow is available in R through the <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">cat.llm</code> package on <a href="https://chrissoria.r-universe.dev" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">R-universe</a>.</p>
         <div class="reveal reveal-delay-1" style="display:flex;flex-direction:column;gap:12px;">
           <div style="display:flex;align-items:flex-start;gap:12px;padding:16px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;">
             <span style="color:var(--teal);font-size:1.1rem;margin-top:1px;">✓</span>
@@ -1783,7 +1478,7 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_respons
       <div>
         <div class="section-label" style="margin-bottom:16px;">Citation</div>
         <p class="research-quote">
-          Defaults are grounded in a systematic evaluation of 21 LLMs across 6 providers and 4 open-ended survey coding tasks, benchmarked against expert human coders.
+          Defaults are grounded in a systematic evaluation of 21 LLMs across six providers and four open-ended survey coding tasks, benchmarked against expert human coders.
         </p>
         <div style="font-family:var(--font-mono);font-size:0.82rem;color:var(--text-2);line-height:1.7;margin-bottom:14px;">
           <div style="margin-bottom:10px;">
@@ -1793,10 +1488,6 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_respons
           <div style="margin-bottom:10px;">
             <span style="color:var(--text-3);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Software paper <a href="https://doi.org/10.21105/joss.09678" target="_blank" style="margin-left:6px;"><img src="https://joss.theoj.org/papers/10.21105/joss.09678/status.svg" alt="JOSS DOI" style="height:16px;vertical-align:middle;"></a></span>
             Soria, C. (2026). <em style="color:var(--text);font-style:italic;">Scaling Open-Ended Survey Coding: An LLM Pipeline Where Definitions Do the Heavy Lifting</em>. <em>Journal of Open Source Software</em>. <a href="https://doi.org/10.21105/joss.09678" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">doi.org/10.21105/joss.09678</a>
-          </div>
-          <div>
-            <span style="color:var(--text-3);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Software</span>
-            Soria, C. (2026). <em style="color:var(--text);font-style:italic;">CatLLM: A Reproducible Python Ecosystem for Generating, Assigning, and Scoring Open-Ended Text, Images, and Documents Across Research Domains</em> (v3.0.0) [Software]. Zenodo. <a href="https://doi.org/10.5281/zenodo.19960067" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">doi.org/10.5281/zenodo.19960067</a>
           </div>
         </div>
         <div class="research-meta">
@@ -1830,18 +1521,6 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_respons
   <span class="c-key">journal</span>   = <span class="c-str">{Journal of Open Source Software}</span>,
   <span class="c-key">doi</span>       = <span class="c-str">{10.21105/joss.09678}</span>,
   <span class="c-key">url</span>       = <span class="c-str">{https://doi.org/10.21105/joss.09678}</span>
-}
-
-<span class="c-key">@software</span>{soria2026catllm_software,
-  <span class="c-key">title</span>     = <span class="c-str">{{CatLLM}: A Reproducible Python Ecosystem for
-               Generating, Assigning, and Scoring Open-Ended
-               Text, Images, and Documents Across Research Domains}</span>,
-  <span class="c-key">author</span>    = <span class="c-str">{Soria, Chris}</span>,
-  <span class="c-key">year</span>      = <span class="c-str">{2026}</span>,
-  <span class="c-key">version</span>   = <span class="c-str">{3.0.0}</span>,
-  <span class="c-key">publisher</span> = <span class="c-str">{Zenodo}</span>,
-  <span class="c-key">doi</span>       = <span class="c-str">{10.5281/zenodo.19960067}</span>,
-  <span class="c-key">url</span>       = <span class="c-str">{https://doi.org/10.5281/zenodo.19960067}</span>
 }</div>
         </div>
       </div>
@@ -1957,61 +1636,10 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_respons
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   // Hero elements visible immediately
-  document.querySelectorAll('.hero .reveal, .hero-panel').forEach(el => {
+  document.querySelectorAll('.hero .reveal').forEach(el => {
     el.classList.add('visible');
   });
 
-  // PyPI download counter — fetches last-month count from pypistats.org,
-  // then animates a count-up when the stats bar scrolls into view.
-  (function () {
-    const el = document.getElementById('pypi-dl-num');
-    if (!el) return;
-
-    let target = null;
-    let animated = false;
-
-    function fmt(n) {
-      if (n >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, '') + '<span>M+</span>';
-      if (n >= 1e3) return (n / 1e3).toFixed(1).replace(/\.0$/, '') + '<span>k+</span>';
-      return n.toLocaleString() + '<span>+</span>';
-    }
-
-    function countUp(to) {
-      if (animated) return;
-      animated = true;
-      const duration = 1400;
-      const start = performance.now();
-      function step(now) {
-        const p = Math.min((now - start) / duration, 1);
-        const ease = 1 - Math.pow(1 - p, 3);
-        const cur = Math.round(ease * to);
-        el.innerHTML = fmt(cur);
-        if (p < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    }
-
-    // Trigger animation when stats bar enters view.
-    const statsBar = document.querySelector('.stats-bar');
-    const statObs = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && target !== null) countUp(target);
-    }, { threshold: 0.3 });
-    if (statsBar) statObs.observe(statsBar);
-
-    // Fetch from the baked-in stats.json (updated daily by GitHub Actions).
-    fetch('./assets/stats.json')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        const count = data?.last_month;
-        if (!count || count < 1) return;
-        target = count;
-        // If already visible, start immediately.
-        if (statsBar && statsBar.getBoundingClientRect().top < window.innerHeight * 0.9) {
-          countUp(target);
-        }
-      })
-      .catch(() => {});
-  })();
 </script>
 </body>
 </html>
