@@ -5,6 +5,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CatLLM — Reproducible LLM Text Classification</title>
   <meta name="description" content="An open-source Python & R ecosystem for LLM-powered text classification. Validated against expert human coders, with 88–99% accuracy across survey tasks. Provider-agnostic. Fully local deployment." />
+  <link rel="canonical" href="https://catllm.com/" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="author" content="Chris Soria" />
+  <meta name="keywords" content="CatLLM, LLM text classification, open-ended survey coding, qualitative coding, large language models, social science, computational social science, Python, R, reproducible research, survey methodology" />
+  <meta name="theme-color" content="#161616" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CatLLM" />
+  <meta property="og:title" content="CatLLM — Reproducible LLM Text Classification" />
+  <meta property="og:description" content="Open-source Python & R toolkit for classifying open-ended text with LLMs. 88–99% agreement with expert human coders across 30+ models. Provider-agnostic; runs locally." />
+  <meta property="og:url" content="https://catllm.com/" />
+  <meta property="og:image" content="https://catllm.com/assets/desktop-screenshot.png" />
+  <meta property="og:image:alt" content="CatLLM desktop app classifying open-ended survey responses." />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CatLLM — Reproducible LLM Text Classification" />
+  <meta name="twitter:description" content="Open-source Python & R toolkit for classifying open-ended text with LLMs. 88–99% agreement with expert human coders. Provider-agnostic; runs locally." />
+  <meta name="twitter:image" content="https://catllm.com/assets/desktop-screenshot.png" />
+  <meta name="twitter:image:alt" content="CatLLM desktop app classifying open-ended survey responses." />
+
+  <!-- Structured data: software, author, and the JOSS paper -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://catllm.com/#software",
+        "name": "CatLLM",
+        "alternateName": ["cat-llm", "cat.llm"],
+        "description": "An open-source Python and R toolkit for classifying open-ended text with large language models. Defaults are calibrated against the consensus of double-blind coding by sociologists and demographers, reaching 88–99% agreement with human coders across 30+ LLMs. Compatible with GPT, Gemini, Claude, the Hugging Face Inference API, and Ollama for fully local inference.",
+        "applicationCategory": "ResearchApplication",
+        "operatingSystem": "Cross-platform",
+        "url": "https://catllm.com/",
+        "license": "https://github.com/chrissoria/cat-llm/blob/main/LICENSE",
+        "codeRepository": "https://github.com/chrissoria/cat-llm",
+        "programmingLanguage": ["Python", "R"],
+        "downloadUrl": "https://pypi.org/project/cat-llm/",
+        "softwareHelp": "https://github.com/chrissoria/cat-llm#readme",
+        "author": { "@id": "https://catllm.com/#author" },
+        "maintainer": { "@id": "https://catllm.com/#author" },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "citation": { "@id": "https://doi.org/10.21105/joss.09678" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://catllm.com/#author",
+        "name": "Chris Soria",
+        "url": "https://christophersoria.com",
+        "affiliation": {
+          "@type": "CollegeOrUniversity",
+          "name": "University of California, Berkeley"
+        }
+      },
+      {
+        "@type": "ScholarlyArticle",
+        "@id": "https://doi.org/10.21105/joss.09678",
+        "name": "CatLLM",
+        "headline": "CatLLM: A reproducible LLM pipeline for classifying open-ended text",
+        "author": { "@id": "https://catllm.com/#author" },
+        "isPartOf": {
+          "@type": "Periodical",
+          "name": "Journal of Open Source Software"
+        },
+        "identifier": "10.21105/joss.09678",
+        "url": "https://doi.org/10.21105/joss.09678",
+        "sameAs": "https://doi.org/10.5281/zenodo.19960067"
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://catllm.com/#website",
+        "url": "https://catllm.com/",
+        "name": "CatLLM",
+        "publisher": { "@id": "https://catllm.com/#author" },
+        "inLanguage": "en"
+      }
+    ]
+  }
+  </script>
+
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
