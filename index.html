@@ -889,39 +889,10 @@
       color: var(--text-2);
       font-size: 0.95rem;
       line-height: 1.7;
-      margin-bottom: 22px;
+      margin-bottom: 26px;
     }
 
     .share-desc em { color: var(--text); font-style: italic; }
-
-    .share-list {
-      list-style: none;
-      margin: 0 0 26px;
-      padding: 0;
-      display: grid;
-      gap: 9px;
-    }
-
-    .share-list li {
-      position: relative;
-      padding-left: 20px;
-      color: var(--text-2);
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
-
-    /* Teal dot instead of a list marker — matches the accent used for
-       links elsewhere and keeps the hanging indent aligned. */
-    .share-list li::before {
-      content: '';
-      position: absolute;
-      left: 2px;
-      top: 0.62em;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--teal);
-    }
 
     .share-cta {
       display: flex;
@@ -1602,14 +1573,9 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_respons
       <p class="share-desc">
         CatLLM has been downloaded over 100,000 times, but download counts say nothing about what
         the package was used for or whether the results held up. If you have used it in a paper,
-        preprint, thesis, report, or class project, I would like to hear about it — and the cases
-        where it did <em>not</em> work are more useful to me than the ones where it did.
+        preprint, thesis, report, or class project, I would like to hear about it. The cases where
+        it did <em>not</em> work are more useful to me than the ones where it did.
       </p>
-      <ul class="share-list">
-        <li>Non-English text and non-U.S. contexts, which the validation studies barely cover</li>
-        <li>Domains that have not been benchmarked: clinical notes, interview transcripts, historical documents, open-ended feedback</li>
-        <li>Failure modes, surprising results, or defaults that turned out to be wrong for your data</li>
-      </ul>
       <div class="share-cta">
         <a href="mailto:chrissoria@berkeley.edu?subject=I%20used%20CatLLM%20in%20my%20research" class="btn-primary">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
