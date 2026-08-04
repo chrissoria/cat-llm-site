@@ -1,0 +1,6 @@
+{
+  "note": "URLs dismissed during review. Keeps known false positives from being re-reported every night.",
+  "urls": [
+    "https://github.com/HETDEX/elixer/blob/master/elixer/catalogs.py"
+  ]
+}

@@ -170,6 +170,18 @@
         </li>
       </ul>
 
+      <!-- Populated from assets/mentions.json, which only ever contains
+           entries reviewed by hand. See scripts/README.md. -->
+      <section class="mentions" id="mentions">
+        <div class="section-label">Elsewhere</div>
+        <h2 class="section-title">Mentions and citations</h2>
+        <p class="mentions-intro">
+          Papers citing CatLLM and public projects using it, collected from
+          OpenAlex, Semantic Scholar, GitHub, and Hacker News.
+        </p>
+        <ul class="updates-list" id="mentions-list"></ul>
+      </section>
+
       <div class="updates-more">
         <a href="https://christophersoria.com/year-archive/" target="_blank" class="btn-secondary">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -203,5 +215,43 @@
   </div>
 </footer>
 
+<script>
+  // Render approved mentions. The section stays hidden unless there is at
+  // least one entry, so a fetch failure or an empty file degrades to the
+  // post list alone rather than an empty heading.
+  fetch('/assets/mentions.json')
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
+      const items = (data && data.mentions) || [];
+      if (!items.length) return;
+      const list = document.getElementById('mentions-list');
+      items.forEach(m => {
+        const li = document.createElement('li');
+        li.className = 'update-item';
+
+        const date = document.createElement('span');
+        date.className = 'update-date';
+        date.textContent = m.date || '';
+
+        // textContent, not innerHTML: these strings come from third-party
+        // APIs and must never be parsed as markup.
+        const link = document.createElement('a');
+        link.className = 'update-title';
+        link.href = m.url;
+        link.target = '_blank';
+        link.rel = 'noopener nofollow';
+        link.textContent = m.author ? `${m.title} · ${m.author}` : m.title;
+
+        const src = document.createElement('span');
+        src.className = 'mention-source';
+        src.textContent = m.source || '';
+
+        li.append(date, link, src);
+        list.appendChild(li);
+      });
+      document.getElementById('mentions').classList.add('has-items');
+    })
+    .catch(() => {});
+</script>
 </body>
 </html>

@@ -843,6 +843,31 @@ nav {
 
 .updates-more { margin-top: 26px; }
 
+/* Mentions are hidden until assets/mentions.json has approved entries,
+   so an empty list never renders an empty heading. */
+.mentions { display: none; margin-top: 56px; }
+.mentions.has-items { display: block; }
+
+.mentions-intro {
+  color: var(--text-2);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin: 8px 0 20px;
+  max-width: 640px;
+}
+
+.mention-source {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 2px 7px;
+  white-space: nowrap;
+}
+
 /* ── Share your work ──────────────────────────────────── */
 .share { padding: 0 0 70px; }
 
