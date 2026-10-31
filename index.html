@@ -95,7 +95,7 @@
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Mono:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/styles.css" />
 </head>
 <body>
@@ -261,7 +261,7 @@
           </div>
         </div>
         <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--border);">
-          <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-3);margin-bottom:10px;">Optional extras</div>
+          <div style="font-size:0.86rem;color:var(--text-3);margin-bottom:10px;">Optional extras</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
             <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-2);background:var(--bg-3);padding:3px 8px;border-radius:4px;border:1px solid var(--border);">pip install cat-llm[pdf]</span>
             <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-2);background:var(--bg-3);padding:3px 8px;border-radius:4px;border:1px solid var(--border);">cat-llm[embeddings]</span>
@@ -423,22 +423,18 @@
   .platform-icon { color: var(--text-2); }
   .platform-card.is-active .platform-icon { color: var(--teal); }
   .platform-name {
-    font-family: var(--font-sans);
-    font-weight: 500;
+    font-family: var(--font-body);
+    font-weight: 700;
     font-size: 0.95rem;
     margin-top: 2px;
   }
   .platform-meta {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.86rem;
     color: var(--text-3);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
   }
   .platform-card.is-active .platform-meta { color: var(--teal-dim); }
   .download-note {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: 0.86rem;
     color: var(--text-3);
     border-left: 2px solid var(--teal-dim);
     padding: 8px 0 8px 12px;
@@ -446,6 +442,8 @@
     line-height: 1.5;
   }
   .download-note code {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
     background: var(--bg-3);
     padding: 1px 6px;
     border-radius: 3px;
@@ -461,7 +459,7 @@
     <div class="download-header reveal">
       <div class="section-label">Desktop application</div>
       <h2 class="section-title">For collaborators without a Python environment</h2>
-      <p class="section-desc">A desktop build of the same <code>cat-llm</code> pipeline, distributed as a self-contained application. Outputs and the generated reproducibility scripts are the same as the library; the audience is collaborators who do not maintain a local Python environment.</p>
+      <p class="section-desc">A desktop build of the same <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--teal);">cat-llm</code> pipeline, distributed as a self-contained application. Outputs and the generated reproducibility scripts are the same as the library; the audience is collaborators who do not maintain a local Python environment.</p>
     </div>
 
     <div class="download-grid">
@@ -629,21 +627,21 @@ results.<span class="c-func">to_csv</span>(<span class="c-string">"coded_respons
         <p class="research-quote">
           Defaults are grounded in a systematic evaluation of 21 LLMs across six providers and four open-ended survey coding tasks, benchmarked against expert human coders.
         </p>
-        <div style="font-family:var(--font-mono);font-size:0.82rem;color:var(--text-2);line-height:1.7;margin-bottom:14px;">
+        <div style="font-size:0.95rem;color:var(--text-2);line-height:1.7;margin-bottom:14px;">
           <div style="margin-bottom:10px;">
-            <span style="color:var(--text-3);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Empirical validation</span>
+            <span style="color:var(--text-3);font-size:0.86rem;display:block;margin-bottom:4px;">Empirical validation</span>
             Soria, C. (2026). <em style="color:var(--text);font-style:italic;">Scaling Open-Ended Survey Coding: An LLM Pipeline Where Definitions Do the Heavy Lifting</em>. SocArXiv. <a href="https://osf.io/preprints/socarxiv/gjvcf_v1" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">osf.io/preprints/socarxiv/gjvcf</a>
           </div>
           <div style="margin-bottom:10px;">
-            <span style="color:var(--text-3);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Software paper <a href="https://doi.org/10.21105/joss.09678" target="_blank" style="margin-left:6px;"><img src="https://joss.theoj.org/papers/10.21105/joss.09678/status.svg" alt="JOSS DOI" style="height:16px;vertical-align:middle;"></a></span>
+            <span style="color:var(--text-3);font-size:0.86rem;display:block;margin-bottom:4px;">Software paper <a href="https://doi.org/10.21105/joss.09678" target="_blank" style="margin-left:6px;"><img src="https://joss.theoj.org/papers/10.21105/joss.09678/status.svg" alt="JOSS DOI" style="height:16px;vertical-align:middle;"></a></span>
             Soria, C. (2026). <em style="color:var(--text);font-style:italic;">CatLLM: A Python package for Generating, Assigning, and Scoring Open-Ended Survey Data and Images</em>. <em>Journal of Open Source Software</em>. <a href="https://doi.org/10.21105/joss.09678" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">doi.org/10.21105/joss.09678</a>
           </div>
           <div style="margin-bottom:10px;">
-            <span style="color:var(--text-3);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Studies using CatLLM</span>
+            <span style="color:var(--text-3);font-size:0.86rem;display:block;margin-bottom:4px;">Studies using CatLLM</span>
             Soria, C. (2026). <em style="color:var(--text);font-style:italic;">High Agreement, Different Stories: How LLM Classifiers Reshape Demographic Patterns in Survey Data</em>. SocArXiv. <a href="https://osf.io/preprints/socarxiv/85kyd_v1" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">osf.io/preprints/socarxiv/85kyd</a>
           </div>
           <div style="margin-bottom:10px;">
-            <span style="color:var(--text-3);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:4px;">Studies using CatLLM</span>
+            <span style="color:var(--text-3);font-size:0.86rem;display:block;margin-bottom:4px;">Studies using CatLLM</span>
             Soria, C. (2026). <em style="color:var(--text);font-style:italic;">Model Diversity Over Model Size: Unanimous LLM Ensembles Correct Over-Classification in Survey Coding</em>. SocArXiv. <a href="https://osf.io/preprints/socarxiv/er6mz_v1" target="_blank" style="color:var(--teal);text-decoration:underline;text-underline-offset:3px;">osf.io/preprints/socarxiv/er6mz</a>
           </div>
         </div>
