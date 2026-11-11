@@ -1,5 +1,15 @@
 {
-  "updated": "2026-08-04",
+  "updated": "2026-11-11",
   "note": "Unreviewed candidates from scripts/fetch_mentions.py. Nothing here is published.",
-  "mentions": []
+  "mentions": [
+    {
+      "title": "Why Would Others Help Me?: How People Explain Why They Can (or Cannot) Rely on Family and Friends",
+      "url": "https://doi.org/10.1177/01902725261499717",
+      "source": "openalex",
+      "kind": "citation",
+      "date": "2026",
+      "author": "Claude S. Fischer",
+      "found": "2026-11-11"
+    }
+  ]
 }
